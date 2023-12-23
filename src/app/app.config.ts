@@ -9,9 +9,6 @@ import { routes } from './app.routes';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    importProvidersFrom([
-      provideFirebaseApp(() => initializeApp(environment.firebase)),
-      provideAuth(() => getAuth()),
-    ]),
+    importProvidersFrom([provideFirebaseApp(() => initializeApp(environment.firebase)), provideAuth(() => getAuth())]),
   ],
 };
