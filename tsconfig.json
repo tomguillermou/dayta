@@ -43,7 +43,8 @@
     "skipLibCheck": true,
 
     "paths": {
-      "@modules/login": ["libs/login/index.ts"]
+      "@libs/home": ["libs/home/index.ts"],
+      "@libs/login": ["libs/login/index.ts"]
     }
   },
   "include": ["**/*.ts"],
