@@ -12,7 +12,9 @@
     "emitDecoratorMetadata": true,
 
     "module": "ES2020",
+    "rootDir": "./",
     "moduleResolution": "node",
+    "baseUrl": "./",
 
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -38,7 +40,11 @@
     "useUnknownInCatchVariables": true,
 
     "skipDefaultLibCheck": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    "paths": {
+      "@modules/login": ["libs/login/index.ts"]
+    }
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "**/*.test.ts"],

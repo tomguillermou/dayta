@@ -1,0 +1,30 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="login-container">
+    <h2>Welcome back</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <ng-container *ngIf="vm.error">
+        <div class="alert alert-danger" role="alert">{{ vm.error }}</div>
+      </ng-container>
+
+      <div class="form-floating">
+        <input class="form-control" type="email" id="email" formControlName="email" placeholder="Email" />
+        <label class="form-label" for="email">Email</label>
+      </div>
+
+      <div class="form-floating">
+        <input class="form-control" type="password" id="password" formControlName="password" placeholder="Password" />
+        <label class="form-label" for="password">Password</label>
+      </div>
+
+      <ng-container *ngIf="vm.loading">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!vm.loading">
+        <button class="btn btn-primary" type="submit">Log in</button>
+      </ng-container>
+    </form>
+  </div>
+</ng-container>
