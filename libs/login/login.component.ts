@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 
 import { LoginService } from './login.service';
@@ -28,7 +29,7 @@ export class LoginComponent {
     error: this.error$.asObservable(),
   });
 
-  constructor(private _formBuilder: FormBuilder, private _loginService: LoginService) {
+  constructor(private _formBuilder: FormBuilder, private _loginService: LoginService, private _router: Router) {
     this.loginForm = this._formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -49,6 +50,9 @@ export class LoginComponent {
 
     this._loginService
       .signIn(this.loginForm.value)
+      .then(() => {
+        this._router.navigate(['/home']);
+      })
       .catch((err) => {
         console.error(err);
         this.error$.next('Invalid email or password.');
