@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { AuthService } from '@libs/auth';
+import { Observable, combineLatest } from 'rxjs';
+
+import { AuthService, User } from '@libs/auth';
+
+type ViewModel = {
+  currentUser: User | null;
+};
 
 @Component({
   standalone: true,
@@ -10,6 +16,10 @@ import { AuthService } from '@libs/auth';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
+  vm$: Observable<ViewModel> = combineLatest({
+    currentUser: this._authService.currentUser$,
+  });
+
   constructor(private _authService: AuthService) {}
 
   onSignOut(): void {

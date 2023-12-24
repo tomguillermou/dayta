@@ -1,14 +1,16 @@
-<div class="sidebar">
-  <div class="header">
-    <a href="/home"><h2>>_ Dayta</h2></a>
-  </div>
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="sidebar">
+    <div class="header">
+      <a href="/home"><h2>>_ Dayta</h2></a>
+    </div>
 
-  <div class="footer">
-    <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      Connected user
-    </button>
-    <ul class="dropdown-menu" data-bs-theme="dark">
-      <li class="dropdown-item" (click)="onSignOut()"><i class="bi-box-arrow-right"></i>Sign out</li>
-    </ul>
+    <div class="footer">
+      <button class="btn btn-outline-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {{ vm.currentUser?.email }}
+      </button>
+      <ul class="dropdown-menu" data-bs-theme="dark">
+        <li class="dropdown-item" (click)="onSignOut()"><i class="bi-box-arrow-right"></i>Sign out</li>
+      </ul>
+    </div>
   </div>
-</div>
+</ng-container>

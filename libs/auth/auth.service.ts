@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Auth, User as FirebaseUser, sendPasswordResetEmail, signInWithEmailAndPassword } from '@angular/fire/auth';
+import {
+  Auth,
+  User as FirebaseUser,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signOut,
+} from '@angular/fire/auth';
+import { BehaviorSubject, map } from 'rxjs';
 
 import { User } from './user';
 
@@ -27,29 +34,43 @@ function getUserFromStorage(): User | null {
   return user ? JSON.parse(user) : null;
 }
 
+function handleUserStorage(user: User | null): void {
+  if (user) {
+    return setUserInStorage(user);
+  }
+
+  if (getUserFromStorage()) {
+    return removeUserFromStorage();
+  }
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private auth: Auth) {}
+  private _user = new BehaviorSubject<User | null>(getUserFromStorage());
+
+  readonly currentUser$ = this._user.asObservable();
+  readonly isLoggedIn$ = this.currentUser$.pipe(map((user) => Boolean(user)));
+
+  constructor(private _auth: Auth) {
+    this._user.subscribe((user) => handleUserStorage(user));
+  }
 
   public async signIn(credentials: { email: string; password: string }): Promise<void> {
-    const userCredential = await signInWithEmailAndPassword(this.auth, credentials.email, credentials.password);
+    const { email, password } = credentials;
+    const { user } = await signInWithEmailAndPassword(this._auth, email, password);
 
-    setUserInStorage(firebaseUserToAuthUser(userCredential.user));
+    this._user.next(firebaseUserToAuthUser(user));
   }
 
   public async signOut(): Promise<void> {
-    await this.auth.signOut();
+    await signOut(this._auth);
 
-    removeUserFromStorage();
+    this._user.next(null);
   }
 
-  public isLoggedIn(): boolean {
-    return Boolean(getUserFromStorage());
-  }
-
-  public resetPassword(email: string): Promise<void> {
-    return sendPasswordResetEmail(this.auth, email);
+  public async resetPassword(email: string): Promise<void> {
+    await sendPasswordResetEmail(this._auth, email);
   }
 }
