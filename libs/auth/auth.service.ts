@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Auth, User, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, User as FirebaseUser, signInWithEmailAndPassword } from '@angular/fire/auth';
 
-import { AuthUser } from './auth-user';
+import { User } from './user';
 
-function firebaseUserToAuthUser(user: User): AuthUser {
+function firebaseUserToAuthUser(user: FirebaseUser): User {
   return {
     uid: user.uid,
-    email: user.email,
+    email: user.email!,
     displayName: user.displayName,
     photoURL: user.photoURL,
     emailVerified: user.emailVerified,
   };
 }
 
-function setUserInStorage(user: AuthUser): void {
+function setUserInStorage(user: User): void {
   localStorage.setItem('user', JSON.stringify(user));
 }
 
@@ -21,7 +21,7 @@ function removeUserFromStorage(): void {
   localStorage.removeItem('user');
 }
 
-function getUserFromStorage(): AuthUser | null {
+function getUserFromStorage(): User | null {
   const user = localStorage.getItem('user');
 
   return user ? JSON.parse(user) : null;
