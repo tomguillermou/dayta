@@ -39,4 +39,17 @@ export class SupabaseService {
       throw error;
     }
   }
+
+  async insertDocument<TDoc = Record<string, unknown>, TResult = Record<string, unknown>>(params: {
+    tableName: string;
+    document: TDoc;
+  }): Promise<TResult> {
+    const { data, error } = await this._supabaseClient.from(params.tableName).insert(params.document).select();
+
+    if (error) {
+      throw error;
+    }
+
+    return data?.[0];
+  }
 }

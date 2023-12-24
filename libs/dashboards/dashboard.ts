@@ -1,9 +1,9 @@
 export type Dashboard = {
   id: string;
-  title: string;
+  name: string;
   description: string;
-  ownerId: string;
-  createdAt: Date;
+  owner_id: string;
+  created_at: Date;
 };
 
-export type NewDashboard = Omit<Dashboard, 'id' | 'createdAt'>;
+export type NewDashboard = Omit<Dashboard, 'id' | 'created_at'>;
