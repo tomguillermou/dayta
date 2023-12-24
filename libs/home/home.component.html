@@ -1,7 +1,9 @@
 <ng-container *ngIf="vm$ | async as vm">
   <div class="sidebar">
     <div class="content">
-      <button class="btn btn-outline-secondary"><i class="bi-plus"></i>Create Dayta</button>
+      <button class="btn btn-outline-secondary" (click)="onCreateDashboard(vm.currentUser)">
+        <i class="bi-plus"></i>Create Dayta
+      </button>
     </div>
 
     <button class="btn btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">

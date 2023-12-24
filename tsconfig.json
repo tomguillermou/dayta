@@ -44,6 +44,7 @@
 
     "paths": {
       "@libs/auth": ["libs/auth/index.ts"],
+      "@libs/dashboards": ["libs/dashboards/index.ts"],
       "@libs/home": ["libs/home/index.ts"],
       "@libs/login": ["libs/login/index.ts"],
       "@libs/reset-password": ["libs/reset-password/index.ts"]
