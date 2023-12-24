@@ -43,6 +43,7 @@
     "skipLibCheck": true,
 
     "paths": {
+      "@libs/auth": ["libs/auth/index.ts"],
       "@libs/home": ["libs/home/index.ts"],
       "@libs/login": ["libs/login/index.ts"]
     }

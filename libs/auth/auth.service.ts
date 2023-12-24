@@ -4,10 +4,10 @@ import { Auth, UserCredential, signInWithEmailAndPassword } from '@angular/fire/
 @Injectable({
   providedIn: 'root',
 })
-export class LoginService {
+export class AuthService {
   constructor(private auth: Auth) {}
 
-  public async signIn(credentials: { email: string; password: string }): Promise<UserCredential> {
+  public signIn(credentials: { email: string; password: string }): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, credentials.email, credentials.password);
   }
 }

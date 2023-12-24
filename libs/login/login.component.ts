@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 
-import { LoginService } from './login.service';
+import { AuthService } from '@libs/auth';
 
 interface ViewModel {
   loading: boolean;
@@ -29,7 +29,7 @@ export class LoginComponent {
     error: this.error$.asObservable(),
   });
 
-  constructor(private _formBuilder: FormBuilder, private _loginService: LoginService, private _router: Router) {
+  constructor(private _formBuilder: FormBuilder, private _authService: AuthService, private _router: Router) {
     this.loginForm = this._formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -48,17 +48,16 @@ export class LoginComponent {
     this.error$.next('');
     this.loading$.next(true);
 
-    this._loginService
+    this._authService
       .signIn(this.loginForm.value)
       .then(() => {
+        this.loading$.next(false);
         this._router.navigate(['/home']);
       })
       .catch((err) => {
         console.error(err);
-        this.error$.next('Invalid email or password.');
-      })
-      .finally(() => {
         this.loading$.next(false);
+        this.error$.next('Invalid email or password.');
       });
   }
 }
