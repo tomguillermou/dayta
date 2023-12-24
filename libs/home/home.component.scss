@@ -1,8 +1,9 @@
 .sidebar {
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100vh;
-  width: 260px;
+  width: 300px;
   padding: 1.5rem;
   color: white;
   background-color: black;
@@ -19,7 +20,7 @@
 
   .footer {
     .dropdown-menu {
-      padding: 0px;
+      padding: 0rem;
 
       .dropdown-item {
         display: flex;
@@ -28,7 +29,7 @@
         cursor: pointer;
 
         i {
-          margin-right: 0.5rem;
+          margin-right: 0.75rem;
         }
       }
     }
