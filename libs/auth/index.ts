@@ -1,3 +1,3 @@
 export { authGuard } from './auth.guard';
 export { AuthService } from './auth.service';
-export { User } from './user';
+export { User } from '@libs/supabase';

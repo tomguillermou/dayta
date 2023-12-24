@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Observable, combineLatest } from 'rxjs';
 
 import { AuthService, User } from '@libs/auth';
-import { DashboardService } from '@libs/dashboards';
 
 type ViewModel = {
   currentUser: User | null;
@@ -24,23 +23,13 @@ export class HomeComponent {
     currentUser: this._authService.currentUser$,
   });
 
-  constructor(
-    private _authService: AuthService,
-    private _dashboardService: DashboardService,
-    private _router: Router
-  ) {}
+  constructor(private _authService: AuthService, private _router: Router) {}
 
   async onCreateDashboard(user: User | null): Promise<void> {
     if (!user) {
       return;
     }
-
-    const newDashboard = await this._dashboardService.createDashboard({
-      title: 'New dashboard',
-      description: 'This is a new dashboard, set a title and description',
-      ownerId: user.uid,
-    });
-    console.log('🚀  newDashboard:', newDashboard);
+    console.log('dashboard created');
   }
 
   async onSignOut(): Promise<void> {
