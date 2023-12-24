@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 
 import { AuthService } from '@libs/auth';
 
-type Alert = { message: string; type: 'success' | 'danger' };
+type Alert = { message: string; type: 'success' | 'error' };
 
 type ViewModel = {
   loading: boolean;
@@ -15,7 +16,7 @@ type ViewModel = {
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss',
 })
@@ -40,7 +41,7 @@ export class ResetPasswordComponent {
     if (this.resetPasswordForm.valid) {
       this.resetPassword();
     } else {
-      this.alert$.next({ message: 'Please enter a valid email address.', type: 'danger' });
+      this.alert$.next({ message: 'Please enter a valid email address.', type: 'error' });
     }
   }
 
@@ -54,7 +55,7 @@ export class ResetPasswordComponent {
         this.loading$.next(false);
       },
       (error) => {
-        this.alert$.next({ message: error.message, type: 'danger' });
+        this.alert$.next({ message: error.message, type: 'error' });
         this.loading$.next(false);
       }
     );
