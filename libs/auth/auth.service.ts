@@ -17,6 +17,10 @@ function setUserInStorage(user: AuthUser): void {
   localStorage.setItem('user', JSON.stringify(user));
 }
 
+function removeUserFromStorage(): void {
+  localStorage.removeItem('user');
+}
+
 function getUserFromStorage(): AuthUser | null {
   const user = localStorage.getItem('user');
 
@@ -33,6 +37,12 @@ export class AuthService {
     const userCredential = await signInWithEmailAndPassword(this.auth, credentials.email, credentials.password);
 
     setUserInStorage(firebaseUserToAuthUser(userCredential.user));
+  }
+
+  public async signOut(): Promise<void> {
+    await this.auth.signOut();
+
+    removeUserFromStorage();
   }
 
   public isLoggedIn(): boolean {

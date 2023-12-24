@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AuthService } from '@libs/auth';
 
 @Component({
   standalone: true,
@@ -9,5 +10,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  constructor() {}
+  constructor(private _authService: AuthService) {}
+
+  onSignOut(): void {
+    this._authService.signOut().then(() => window.location.reload());
+  }
 }
