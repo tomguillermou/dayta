@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, User as FirebaseUser, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, User as FirebaseUser, sendPasswordResetEmail, signInWithEmailAndPassword } from '@angular/fire/auth';
 
 import { User } from './user';
 
@@ -47,5 +47,9 @@ export class AuthService {
 
   public isLoggedIn(): boolean {
     return Boolean(getUserFromStorage());
+  }
+
+  public resetPassword(email: string): Promise<void> {
+    return sendPasswordResetEmail(this.auth, email);
   }
 }
