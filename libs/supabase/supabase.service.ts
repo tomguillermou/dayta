@@ -69,4 +69,12 @@ export class SupabaseService {
 
     return data;
   }
+
+  async deleteDocumentById(params: { tableName: string; documentId: string }): Promise<void> {
+    const { error } = await this._supabaseClient.from(params.tableName).delete().match({ id: params.documentId });
+
+    if (error) {
+      throw error;
+    }
+  }
 }

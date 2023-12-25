@@ -19,6 +19,13 @@ export class DashboardService {
     });
   }
 
+  async deleteDashboard(dashboardId: Dashboard['id']): Promise<void> {
+    return this._supabaseService.deleteDocumentById({
+      tableName: this.tableName,
+      documentId: dashboardId,
+    });
+  }
+
   async getDashboardsForOwner(ownerId: Dashboard['owner_id']): Promise<Dashboard[]> {
     return this._supabaseService.getDocuments<Dashboard>({
       tableName: this.tableName,

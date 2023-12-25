@@ -11,8 +11,17 @@
         </ng-container>
         <ng-container *ngIf="vm.dashboards.length">
           <div class="dashboard-list-item" *ngFor="let dashboard of vm.dashboards">
-            <button class="btn btn-outline-secondary" (click)="onSelectDashboard(dashboard)">
+            <button
+              class="btn btn-outline-secondary"
+              (click)="onSelectDashboard(dashboard)"
+              [ngClass]="vm.currentDashboard?.id === dashboard.id ? 'active' : ''"
+            >
               {{ dashboard.name }}
+              <i
+                class="bi-trash"
+                *ngIf="vm.currentDashboard?.id === dashboard.id"
+                (click)="onDeleteDashboard(dashboard)"
+              ></i>
             </button>
           </div>
         </ng-container>

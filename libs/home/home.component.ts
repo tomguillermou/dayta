@@ -49,8 +49,15 @@ export class HomeComponent {
       owner_id: user.id,
     });
 
-    this._reloadDashboards.next(true);
     this._currentDashboard.next(newDashboard);
+    this._reloadDashboards.next(true);
+  }
+
+  async onDeleteDashboard(dashboard: Dashboard): Promise<void> {
+    await this._dashboardService.deleteDashboard(dashboard.id);
+
+    this._currentDashboard.next(null);
+    this._reloadDashboards.next(true);
   }
 
   async onSignOut(): Promise<void> {
