@@ -1,27 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 
 import { AuthService, User } from '@libs/auth';
-import { DashboardService } from '@libs/dashboards';
+import { Dashboard, DashboardComponent, DashboardService } from '@libs/dashboards';
 
 type ViewModel = {
   currentUser: User | null;
+  currentDashboard: Dashboard | null;
 };
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
+  imports: [CommonModule, DashboardComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  // private _selectedDashboard = new BehaviorSubject<string | null>(null);
+  private _currentDashboard = new BehaviorSubject<Dashboard | null>(null);
 
   vm$: Observable<ViewModel> = combineLatest({
     currentUser: this._authService.currentUser$,
+    currentDashboard: this._currentDashboard.asObservable(),
   });
 
   constructor(
@@ -39,8 +41,9 @@ export class HomeComponent {
       description: 'My first dashboard',
       owner_id: user.id,
     });
-
     console.log('🚀  newDashboard:', newDashboard);
+
+    this._currentDashboard.next(newDashboard);
   }
 
   async onSignOut(): Promise<void> {

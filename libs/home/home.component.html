@@ -1,16 +1,24 @@
 <ng-container *ngIf="vm$ | async as vm">
-  <div class="sidebar">
-    <div class="content">
-      <button class="btn btn-outline-secondary" (click)="onCreateDashboard(vm.currentUser)">
-        <i class="bi-plus"></i>Create new dashboard
+  <div class="home-container">
+    <div class="sidebar">
+      <div class="content">
+        <button class="btn btn-outline-secondary" (click)="onCreateDashboard(vm.currentUser)">
+          <i class="bi-plus"></i>Create new dashboard
+        </button>
+      </div>
+
+      <button class="btn btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi-chevron-expand"></i>{{ vm.currentUser?.email }}
       </button>
+      <ul class="dropdown-menu" data-bs-theme="dark">
+        <li class="dropdown-item" (click)="onSignOut()"><i class="bi-box-arrow-right"></i>Sign out</li>
+      </ul>
     </div>
 
-    <button class="btn btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi-chevron-expand"></i>{{ vm.currentUser?.email }}
-    </button>
-    <ul class="dropdown-menu" data-bs-theme="dark">
-      <li class="dropdown-item" (click)="onSignOut()"><i class="bi-box-arrow-right"></i>Sign out</li>
-    </ul>
+    <div class="main-content">
+      <ng-container *ngIf="vm.currentDashboard">
+        <app-dashboard [dashboard]="vm.currentDashboard"></app-dashboard>
+      </ng-container>
+    </div>
   </div>
 </ng-container>
