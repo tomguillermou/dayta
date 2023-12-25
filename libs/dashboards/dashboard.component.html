@@ -1,3 +1,20 @@
-<div>
-  <pre>{{ dashboard | json }}</pre>
+<div class="dashboard-container">
+  <form [formGroup]="dashboardForm">
+    <input
+      class="fs-1 form-control"
+      type="text"
+      name="name"
+      id="name"
+      formControlName="name"
+      [value]="dashboard.description"
+    />
+    <input
+      class="fs-4 form-control"
+      type="text"
+      name="description"
+      id="description"
+      formControlName="description"
+      [value]="dashboard.description"
+    />
+  </form>
 </div>

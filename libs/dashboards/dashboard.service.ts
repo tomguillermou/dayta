@@ -32,4 +32,15 @@ export class DashboardService {
       query: { owner_id: ownerId },
     });
   }
+
+  async updateDashboard(params: {
+    dashboardId: Dashboard['id'];
+    fields: Partial<Pick<Dashboard, 'name' | 'description'>>;
+  }): Promise<Dashboard> {
+    return this._supabaseService.updateDocumentById<Dashboard>({
+      tableName: this.tableName,
+      documentId: params.dashboardId,
+      document: { ...params.fields },
+    });
+  }
 }

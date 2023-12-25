@@ -77,4 +77,22 @@ export class SupabaseService {
       throw error;
     }
   }
+
+  async updateDocumentById<TDoc = Record<string, unknown>>(params: {
+    tableName: string;
+    documentId: string;
+    document: Partial<TDoc>;
+  }): Promise<TDoc> {
+    const { data, error } = await this._supabaseClient
+      .from(params.tableName)
+      .update(params.document)
+      .match({ id: params.documentId })
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    return data?.[0];
+  }
 }
