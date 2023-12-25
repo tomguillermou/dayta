@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, combineLatest, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, filter, switchMap } from 'rxjs';
 
 import { AuthService, User } from '@libs/auth';
 import { Dashboard, DashboardComponent, DashboardService } from '@libs/dashboards';
@@ -20,18 +20,15 @@ type ViewModel = {
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
+  private _reloadDashboards = new BehaviorSubject<boolean>(false);
   private _currentDashboard = new BehaviorSubject<Dashboard | null>(null);
 
   vm$: Observable<ViewModel> = combineLatest({
     currentUser: this._authService.currentUser$,
     currentDashboard: this._currentDashboard.asObservable(),
-    dashboards: this._authService.currentUser$.pipe(
-      switchMap((user) => {
-        if (!user) {
-          return [];
-        }
-        return this._dashboardService.getDashboardsForOwner(user.id);
-      })
+    dashboards: combineLatest([this._reloadDashboards.asObservable(), this._authService.currentUser$]).pipe(
+      filter(([reload, user]) => reload || user !== null),
+      switchMap(([_reload, user]) => this._dashboardService.getDashboardsForOwner(user!.id))
     ),
   });
 
@@ -52,6 +49,7 @@ export class HomeComponent {
       owner_id: user.id,
     });
 
+    this._reloadDashboards.next(true);
     this._currentDashboard.next(newDashboard);
   }
 
