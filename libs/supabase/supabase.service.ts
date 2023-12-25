@@ -70,12 +70,21 @@ export class SupabaseService {
     return data;
   }
 
-  async deleteDocumentById(params: { tableName: string; documentId: string }): Promise<void> {
-    const { error } = await this._supabaseClient.from(params.tableName).delete().match({ id: params.documentId });
+  async deleteDocumentById<TDoc = Record<string, unknown>>(params: {
+    tableName: string;
+    documentId: string;
+  }): Promise<TDoc> {
+    const { data, error } = await this._supabaseClient
+      .from(params.tableName)
+      .delete()
+      .match({ id: params.documentId })
+      .select();
 
     if (error) {
       throw error;
     }
+
+    return data?.[0];
   }
 
   async updateDocumentById<TDoc = Record<string, unknown>>(params: {

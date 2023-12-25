@@ -1,49 +1,39 @@
 <ng-container *ngIf="vm$ | async as vm">
   <div class="home-container">
     <div class="sidebar">
-      <div class="create-dashboard">
-        <button class="btn btn-outline-secondary" (click)="onCreateDashboard(vm.currentUser)">
-          <i class="bi-plus"></i>Create new dashboard
-        </button>
+      <button class="btn btn-outline-secondary" (click)="onCreateDashboard(vm.user)" *ngIf="vm.user">
+        <i class="bi-plus"></i>Create new dashboard
+      </button>
+
+      <p class="message-empty-list" *ngIf="!vm.dashboards.length">No dashboard found, create one! </p>
+      <div class="dashboard-list" *ngIf="vm.dashboards.length">
+        <div class="dashboard-list-item" *ngFor="let dashboard of vm.dashboards">
+          <button
+            class="btn btn-outline-secondary"
+            (click)="onSelectDashboard(dashboard)"
+            [ngClass]="vm.dashboard?.id === dashboard.id ? 'selected' : ''"
+          >
+            {{ dashboard.name }}
+            <i class="bi-trash" *ngIf="vm.dashboard?.id === dashboard.id" (click)="onDeleteDashboard(dashboard)"></i>
+          </button>
+        </div>
       </div>
 
-      <div class="dashboard-list">
-        <ng-container *ngIf="!vm.dashboards.length">
-          <p class="message-empty-list">No dashboard found, create one! </p>
-        </ng-container>
-        <ng-container *ngIf="vm.dashboards.length">
-          <div class="dashboard-list-item" *ngFor="let dashboard of vm.dashboards">
-            <button
-              class="btn btn-outline-secondary"
-              (click)="onSelectDashboard(dashboard)"
-              [ngClass]="vm.currentDashboard?.id === dashboard.id ? 'selected' : ''"
-            >
-              {{ dashboard.name }}
-              <i
-                class="bi-trash"
-                *ngIf="vm.currentDashboard?.id === dashboard.id"
-                (click)="onDeleteDashboard(dashboard)"
-              ></i>
-            </button>
-          </div>
-        </ng-container>
-      </div>
-
-      <div class="user">
+      <div class="user" *ngIf="vm.user">
         <ul class="dropdown-menu" data-bs-theme="dark">
           <li class="dropdown-item" (click)="onSignOut()"><i class="bi-box-arrow-right"></i>Sign out</li>
         </ul>
-        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="bi-chevron-expand"></i>{{ vm.currentUser?.email }}
+        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="dropdown">
+          <i class="bi-chevron-expand"></i>{{ vm.user.email }}
         </button>
       </div>
     </div>
 
     <div class="content">
-      <ng-container *ngIf="vm.currentDashboard">
-        <app-dashboard [dashboard]="vm.currentDashboard"></app-dashboard>
+      <ng-container *ngIf="vm.dashboard">
+        <app-dashboard [dashboard]="vm.dashboard"></app-dashboard>
       </ng-container>
-      <ng-container *ngIf="!vm.currentDashboard">
+      <ng-container *ngIf="!vm.dashboard">
         <p class="message-no-current-dashboard">Select or create one dashboard</p>
       </ng-container>
     </div>

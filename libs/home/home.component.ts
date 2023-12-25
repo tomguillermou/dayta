@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, combineLatest, filter, switchMap } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable, combineLatest, map } from 'rxjs';
 
-import { AuthService, User } from '@libs/auth';
-import { Dashboard, DashboardComponent, DashboardService } from '@libs/dashboards';
+import { User } from '@libs/auth';
+import { Dashboard, DashboardComponent } from '@libs/dashboards';
+
+import { homeActions, homeFeature } from './state-management';
 
 type ViewModel = {
-  currentUser: User | null;
+  user: User | null;
+  dashboard: Dashboard | null;
   dashboards: Dashboard[];
-  currentDashboard: Dashboard | null;
 };
 
 @Component({
@@ -19,53 +21,47 @@ type ViewModel = {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
-  private _reloadDashboards = new BehaviorSubject<boolean>(false);
-  private _currentDashboard = new BehaviorSubject<Dashboard | null>(null);
+export class HomeComponent implements OnInit {
+  vm$: Observable<ViewModel> = combineLatest([
+    this.store.select(homeFeature.selectUser),
+    this.store.select(homeFeature.selectDashboard),
+    this.store.select(homeFeature.selectDashboards),
+  ]).pipe(
+    map(([user, dashboard, dashboards]) => ({
+      user,
+      dashboard,
+      dashboards,
+    }))
+  );
 
-  vm$: Observable<ViewModel> = combineLatest({
-    currentUser: this._authService.currentUser$,
-    currentDashboard: this._currentDashboard.asObservable(),
-    dashboards: combineLatest([this._reloadDashboards.asObservable(), this._authService.currentUser$]).pipe(
-      filter(([reload, user]) => reload || user !== null),
-      switchMap(([_reload, user]) => this._dashboardService.getDashboardsForOwner(user!.id))
-    ),
-  });
+  constructor(private store: Store) {}
 
-  constructor(
-    private _authService: AuthService,
-    private _dashboardService: DashboardService,
-    private _router: Router
-  ) {}
+  ngOnInit(): void {
+    // eslint-disable-next-line @ngrx/avoid-dispatching-multiple-actions-sequentially
+    this.store.dispatch(homeActions.currentUserRequested());
+    // eslint-disable-next-line @ngrx/avoid-dispatching-multiple-actions-sequentially
+    this.store.dispatch(homeActions.loadDashboardsRequested());
+  }
 
-  async onCreateDashboard(user: User | null): Promise<void> {
-    if (!user) {
-      return;
-    }
-
-    const newDashboard = await this._dashboardService.createDashboard({
-      name: 'My Dashboard',
-      description: 'My first dashboard',
-      owner_id: user.id,
-    });
-
-    this._currentDashboard.next(newDashboard);
-    this._reloadDashboards.next(true);
+  async onCreateDashboard(user: User): Promise<void> {
+    this.store.dispatch(
+      homeActions.createDashboardRequested({
+        user_id: user.id,
+        name: 'New dashboard',
+        description: 'Describe your dashboard here',
+      })
+    );
   }
 
   async onDeleteDashboard(dashboard: Dashboard): Promise<void> {
-    await this._dashboardService.deleteDashboard(dashboard.id);
-
-    this._currentDashboard.next(null);
-    this._reloadDashboards.next(true);
+    this.store.dispatch(homeActions.deleteDashboardRequested({ dashboard }));
   }
 
   async onSignOut(): Promise<void> {
-    await this._authService.signOut();
-    this._router.navigate(['/login']);
+    this.store.dispatch(homeActions.signOutRequested());
   }
 
   async onSelectDashboard(dashboard: Dashboard): Promise<void> {
-    this._currentDashboard.next(dashboard);
+    this.store.dispatch(homeActions.dashboardSelected({ dashboard }));
   }
 }

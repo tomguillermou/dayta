@@ -19,8 +19,8 @@ export class DashboardService {
     });
   }
 
-  async deleteDashboard(dashboardId: Dashboard['id']): Promise<void> {
-    return this._supabaseService.deleteDocumentById({
+  async deleteDashboard(dashboardId: Dashboard['id']): Promise<Dashboard> {
+    return this._supabaseService.deleteDocumentById<Dashboard>({
       tableName: this.tableName,
       documentId: dashboardId,
     });

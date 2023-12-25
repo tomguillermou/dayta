@@ -15,7 +15,10 @@
   "overrides": [
     {
       "files": ["*.ts"],
-      "extends": ["plugin:@ngrx/strict-requiring-type-checking"]
+      "extends": ["plugin:@ngrx/strict-requiring-type-checking"],
+      "rules": {
+        "@ngrx/avoid-combining-selectors": "off"
+      }
     }
   ]
 }
