@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, switchMap } from 'rxjs';
 
 import { AuthService, User } from '@libs/auth';
 import { Dashboard, DashboardComponent, DashboardService } from '@libs/dashboards';
 
 type ViewModel = {
   currentUser: User | null;
+  dashboards: Dashboard[];
   currentDashboard: Dashboard | null;
 };
 
@@ -24,6 +25,14 @@ export class HomeComponent {
   vm$: Observable<ViewModel> = combineLatest({
     currentUser: this._authService.currentUser$,
     currentDashboard: this._currentDashboard.asObservable(),
+    dashboards: this._authService.currentUser$.pipe(
+      switchMap((user) => {
+        if (!user) {
+          return [];
+        }
+        return this._dashboardService.getDashboardsForOwner(user.id);
+      })
+    ),
   });
 
   constructor(
@@ -36,12 +45,12 @@ export class HomeComponent {
     if (!user) {
       return;
     }
+
     const newDashboard = await this._dashboardService.createDashboard({
       name: 'My Dashboard',
       description: 'My first dashboard',
       owner_id: user.id,
     });
-    console.log('🚀  newDashboard:', newDashboard);
 
     this._currentDashboard.next(newDashboard);
   }
@@ -49,5 +58,9 @@ export class HomeComponent {
   async onSignOut(): Promise<void> {
     await this._authService.signOut();
     this._router.navigate(['/login']);
+  }
+
+  async onSelectDashboard(dashboard: Dashboard): Promise<void> {
+    this._currentDashboard.next(dashboard);
   }
 }

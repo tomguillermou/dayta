@@ -18,4 +18,11 @@ export class DashboardService {
       document: { ...dashboard },
     });
   }
+
+  async getDashboardsForOwner(ownerId: Dashboard['owner_id']): Promise<Dashboard[]> {
+    return this._supabaseService.getDocuments<Dashboard>({
+      tableName: this.tableName,
+      query: { owner_id: ownerId },
+    });
+  }
 }

@@ -40,7 +40,7 @@ export class SupabaseService {
     }
   }
 
-  async insertDocument<TDoc = Record<string, unknown>, TResult = Record<string, unknown>>(params: {
+  async insertDocument<TDoc = Record<string, unknown>, TResult = TDoc>(params: {
     tableName: string;
     document: TDoc;
   }): Promise<TResult> {
@@ -51,5 +51,22 @@ export class SupabaseService {
     }
 
     return data?.[0];
+  }
+
+  async getDocuments<TDoc = Record<string, unknown>>(params: {
+    tableName: string;
+    query: Partial<TDoc>;
+  }): Promise<TDoc[]> {
+    const { data, error } = await this._supabaseClient
+      .from(params.tableName)
+      .select()
+      .match(params.query)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
   }
 }

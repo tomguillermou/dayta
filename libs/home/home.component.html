@@ -1,23 +1,37 @@
 <ng-container *ngIf="vm$ | async as vm">
   <div class="home-container">
     <div class="sidebar">
-      <div class="content">
-        <button class="btn btn-outline-secondary" (click)="onCreateDashboard(vm.currentUser)">
-          <i class="bi-plus"></i>Create new dashboard
-        </button>
+      <button class="btn btn-outline-secondary" (click)="onCreateDashboard(vm.currentUser)">
+        <i class="bi-plus"></i>Create new dashboard
+      </button>
+
+      <div class="dashboard-list">
+        <ng-container *ngIf="!vm.dashboards.length">
+          <p class="message-empty-list">No dashboard found, create one! </p>
+        </ng-container>
+        <ng-container *ngIf="vm.dashboards.length">
+          <div class="dashboard-list-item" *ngFor="let dashboard of vm.dashboards">
+            <button class="btn btn-outline-secondary" (click)="onSelectDashboard(dashboard)">
+              {{ dashboard.name }}
+            </button>
+          </div>
+        </ng-container>
       </div>
 
-      <button class="btn btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi-chevron-expand"></i>{{ vm.currentUser?.email }}
-      </button>
       <ul class="dropdown-menu" data-bs-theme="dark">
         <li class="dropdown-item" (click)="onSignOut()"><i class="bi-box-arrow-right"></i>Sign out</li>
       </ul>
+      <button class="btn btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi-chevron-expand"></i>{{ vm.currentUser?.email }}
+      </button>
     </div>
 
-    <div class="main-content">
+    <div class="content">
       <ng-container *ngIf="vm.currentDashboard">
         <app-dashboard [dashboard]="vm.currentDashboard"></app-dashboard>
+      </ng-container>
+      <ng-container *ngIf="!vm.currentDashboard">
+        <p class="message-no-current-dashboard">Select or create one dashboard</p>
       </ng-container>
     </div>
   </div>
