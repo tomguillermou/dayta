@@ -4,3 +4,22 @@ body {
   padding: 0px;
   font-family: 'Roboto', sans-serif;
 }
+
+.btn.btn-outline-secondary {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: none;
+  color: var(--bs-white);
+  gap: 0.5rem;
+
+  &:hover {
+    background-color: var(--bs-gray-800);
+  }
+  &:active {
+    background-color: var(--bs-gray-800);
+  }
+  &:focus {
+    background-color: var(--bs-gray-800);
+  }
+}
