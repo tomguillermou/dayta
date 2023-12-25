@@ -6,6 +6,8 @@ body {
 }
 
 .btn.btn-outline-secondary {
+  --bg-color: var(--bs-gray-700);
+
   display: flex;
   align-items: center;
   width: 100%;
@@ -13,13 +15,16 @@ body {
   color: var(--bs-white);
   gap: 0.5rem;
 
+  &.selected {
+    background-color: var(--bg-color);
+  }
   &:hover {
-    background-color: var(--bs-gray-800);
+    background-color: var(--bg-color);
   }
   &:active {
-    background-color: var(--bs-gray-800);
+    background-color: var(--bg-color);
   }
   &:focus {
-    background-color: var(--bs-gray-800);
+    background-color: var(--bg-color);
   }
 }

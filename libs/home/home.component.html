@@ -14,7 +14,7 @@
             <button
               class="btn btn-outline-secondary"
               (click)="onSelectDashboard(dashboard)"
-              [ngClass]="vm.currentDashboard?.id === dashboard.id ? 'active' : ''"
+              [ngClass]="vm.currentDashboard?.id === dashboard.id ? 'selected' : ''"
             >
               {{ dashboard.name }}
               <i
