@@ -5,10 +5,11 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 
 import { Dashboard } from './dashboard';
 import { DashboardService } from './dashboard.service';
+import { DashboardChartComponent } from './dashboard-chart';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DashboardChartComponent],
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
