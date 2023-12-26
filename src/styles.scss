@@ -11,10 +11,16 @@ body {
 
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 280px;
   border: none;
   color: var(--bs-white);
   gap: 0.5rem;
+
+  .btn-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   &.selected {
     background-color: var(--bg-color);

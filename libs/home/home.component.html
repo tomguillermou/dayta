@@ -13,7 +13,7 @@
             (click)="onSelectDashboard(dashboard)"
             [ngClass]="vm.dashboard?.id === dashboard.id ? 'selected' : ''"
           >
-            {{ dashboard.name }}
+            <span class="btn-text">{{ dashboard.name }}</span>
             <i class="bi-trash" *ngIf="vm.dashboard?.id === dashboard.id" (click)="onDeleteDashboard(dashboard)"></i>
           </button>
         </div>
