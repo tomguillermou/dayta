@@ -3,6 +3,8 @@
   height: 100%;
   width: 100%;
   padding: 0px;
+  color: var(--bs-light);
+  background-color: var(--bs-dark);
 
   .sidebar {
     display: flex;
@@ -11,8 +13,6 @@
     width: 300px;
     padding: 1rem;
     gap: 1rem;
-    color: var(--bs-light);
-    background-color: var(--bs-dark);
 
     .dashboard-list {
       display: flex;
