@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(homeActions.loadDashboardsRequested());
   }
 
-  async onCreateDashboard(user: User): Promise<void> {
+  onCreateDashboard(user: User): void {
     this.store.dispatch(
       homeActions.createDashboardRequested({
         user_id: user.id,
@@ -53,15 +53,19 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  async onDeleteDashboard(dashboard: Dashboard): Promise<void> {
+  onDeleteDashboard(dashboard: Dashboard): void {
     this.store.dispatch(homeActions.deleteDashboardRequested({ dashboard }));
   }
 
-  async onSignOut(): Promise<void> {
+  onSignOut(): void {
     this.store.dispatch(homeActions.signOutRequested());
   }
 
-  async onSelectDashboard(dashboard: Dashboard): Promise<void> {
+  onSelectDashboard(dashboard: Dashboard): void {
     this.store.dispatch(homeActions.dashboardSelected({ dashboard }));
+  }
+
+  onDashboardChange(): void {
+    this.store.dispatch(homeActions.loadDashboardsRequested());
   }
 }

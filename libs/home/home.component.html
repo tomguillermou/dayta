@@ -31,7 +31,7 @@
 
     <div class="content">
       <ng-container *ngIf="vm.dashboard">
-        <app-dashboard [dashboard]="vm.dashboard"></app-dashboard>
+        <app-dashboard [dashboard]="vm.dashboard" (nameOrDescriptionChanged)="onDashboardChange()"></app-dashboard>
       </ng-container>
       <ng-container *ngIf="!vm.dashboard">
         <p class="message-no-current-dashboard">Select or create one dashboard</p>

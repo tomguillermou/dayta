@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 
 import { Dashboard } from './dashboard';
@@ -16,32 +16,41 @@ import { DashboardService } from './dashboard.service';
 export class DashboardComponent implements OnInit {
   @Input() dashboard!: Dashboard;
 
-  dashboardForm!: FormGroup<{
-    name: FormControl<string>;
-    description: FormControl<string>;
-  }>;
+  @Output() nameOrDescriptionChanged = new EventEmitter<boolean>();
+
+  dashboardName!: FormControl<Dashboard['name']>;
+  dashboardDescription!: FormControl<Dashboard['description']>;
 
   constructor(private _dashboardService: DashboardService, private _formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.dashboardForm = this._formBuilder.nonNullable.group({
-      name: [this.dashboard.name, Validators.required],
-      description: [this.dashboard.description, Validators.required],
-    });
+    this.dashboardName = this._formBuilder.nonNullable.control(this.dashboard.name, Validators.required);
+    this.dashboardDescription = this._formBuilder.nonNullable.control(this.dashboard.description, Validators.required);
 
-    this.dashboardForm.valueChanges
+    this.dashboardName.valueChanges
       .pipe(
-        distinctUntilChanged(),
         debounceTime(500),
-        switchMap((updates) =>
-          this._dashboardService.updateDashboard({
-            dashboardId: this.dashboard.id,
-            fields: updates,
-          })
+        distinctUntilChanged(),
+        switchMap((name) =>
+          this._dashboardService.updateDashboard({ dashboardId: this.dashboard.id, fields: { name } })
         )
       )
-      .subscribe((updatedDashboard) => {
-        this.dashboard = updatedDashboard;
+      .subscribe((updateDashboard) => {
+        this.dashboard = { ...updateDashboard };
+        this.nameOrDescriptionChanged.emit(true);
+      });
+
+    this.dashboardDescription.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap((description) =>
+          this._dashboardService.updateDashboard({ dashboardId: this.dashboard.id, fields: { description } })
+        )
+      )
+      .subscribe((updateDashboard) => {
+        this.dashboard = { ...updateDashboard };
+        this.nameOrDescriptionChanged.emit(true);
       });
   }
 }
