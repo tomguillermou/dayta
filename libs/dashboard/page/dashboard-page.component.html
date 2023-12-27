@@ -5,7 +5,7 @@
       <div class="container p-3">
         <h1>{{ dashboard.name }}</h1>
         <p class="lead">{{ dashboard.description }}</p>
-        <app-dashboard-chart></app-dashboard-chart>
+        <app-dashboard-chart [chartData]="mockData()"></app-dashboard-chart>
       </div>
     </ng-container>
   </div>

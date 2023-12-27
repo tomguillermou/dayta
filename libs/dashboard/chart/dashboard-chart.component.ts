@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -10,8 +10,6 @@ import {
   NgApexchartsModule,
   ApexTooltip,
 } from 'ng-apexcharts';
-
-import { mockData } from './mock-data';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -29,10 +27,12 @@ export type ChartOptions = {
   selector: 'app-dashboard-chart',
   templateUrl: './dashboard-chart.component.html',
 })
-export class DashboardChartComponent {
-  chartOptions: ChartOptions;
+export class DashboardChartComponent implements OnInit {
+  @Input() chartData!: Array<{ x: number; y: number }>;
 
-  constructor() {
+  chartOptions!: ChartOptions;
+
+  ngOnInit(): void {
     this.chartOptions = {
       chart: {
         height: 600,
@@ -61,7 +61,7 @@ export class DashboardChartComponent {
       },
       series: [
         {
-          data: mockData(),
+          data: this.chartData,
         },
       ],
       xaxis: {
