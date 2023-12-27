@@ -1,33 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map } from 'rxjs';
 
 import { User, SupabaseService } from '@libs/supabase';
-
-import { getUserFromStorage, setUserInStorage } from './storage.helper';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private _user = new BehaviorSubject<User | null>(getUserFromStorage());
+  constructor(private _supabaseService: SupabaseService) {}
 
-  readonly currentUser$ = this._user.asObservable();
-  readonly isLoggedIn$ = this.currentUser$.pipe(map((user) => Boolean(user)));
-
-  constructor(private _supabaseService: SupabaseService) {
-    this._user.subscribe((user) => setUserInStorage(user));
-  }
-
-  public async signIn(credentials: { email: string; password: string }): Promise<void> {
-    const user = await this._supabaseService.signIn(credentials);
-
-    this._user.next(user);
+  public async signIn(credentials: { email: string; password: string }): Promise<User> {
+    return this._supabaseService.signIn(credentials);
   }
 
   public async signOut(): Promise<void> {
-    await this._supabaseService.signOut();
-
-    this._user.next(null);
+    return this._supabaseService.signOut();
   }
 
   public async resetPassword(email: string): Promise<void> {

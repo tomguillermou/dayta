@@ -1,71 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable, combineLatest, map } from 'rxjs';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { User } from '@libs/auth';
-import { Dashboard, DashboardComponent } from '@libs/dashboards';
-
-import { homeActions, homeFeature } from './state-management';
-
-type ViewModel = {
-  user: User | null;
-  dashboard: Dashboard | null;
-  dashboards: Dashboard[];
-};
+import { SidebarComponent } from '@libs/sidebar';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, DashboardComponent],
+  imports: [CommonModule, SidebarComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
-  vm$: Observable<ViewModel> = combineLatest([
-    this.store.select(homeFeature.selectUser),
-    this.store.select(homeFeature.selectDashboard),
-    this.store.select(homeFeature.selectDashboards),
-  ]).pipe(
-    map(([user, dashboard, dashboards]) => ({
-      user,
-      dashboard,
-      dashboards,
-    }))
-  );
-
-  constructor(private store: Store) {}
-
-  ngOnInit(): void {
-    // eslint-disable-next-line @ngrx/avoid-dispatching-multiple-actions-sequentially
-    this.store.dispatch(homeActions.currentUserRequested());
-    // eslint-disable-next-line @ngrx/avoid-dispatching-multiple-actions-sequentially
-    this.store.dispatch(homeActions.loadDashboardsRequested());
-  }
-
-  onCreateDashboard(user: User): void {
-    this.store.dispatch(
-      homeActions.createDashboardRequested({
-        user_id: user.id,
-        name: 'New dashboard',
-        description: 'Describe your dashboard here',
-      })
-    );
-  }
-
-  onDeleteDashboard(dashboard: Dashboard): void {
-    this.store.dispatch(homeActions.deleteDashboardRequested({ dashboard }));
-  }
-
-  onSignOut(): void {
-    this.store.dispatch(homeActions.signOutRequested());
-  }
-
-  onSelectDashboard(dashboard: Dashboard): void {
-    this.store.dispatch(homeActions.dashboardSelected({ dashboard }));
-  }
-
-  onDashboardChange(): void {
-    this.store.dispatch(homeActions.loadDashboardsRequested());
-  }
-}
+export class HomeComponent {}

@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 
-import { AuthService } from '@libs/auth';
+import { logInRequested } from '@libs/store';
 
 interface ViewModel {
   loading: boolean;
@@ -29,8 +30,8 @@ export class LoginComponent {
     error: this.error$.asObservable(),
   });
 
-  constructor(private _formBuilder: FormBuilder, private _authService: AuthService, private _router: Router) {
-    this.loginForm = this._formBuilder.group({
+  constructor(private fb: FormBuilder, private store: Store) {
+    this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
@@ -38,26 +39,26 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.signIn();
+      this.store.dispatch(logInRequested({ ...this.loginForm.value }));
     } else {
       this.error$.next('Invalid email or password.');
     }
   }
 
-  private signIn(): void {
-    this.error$.next('');
-    this.loading$.next(true);
+  // private signIn(): void {
+  //   this.error$.next('');
+  //   this.loading$.next(true);
 
-    this._authService
-      .signIn(this.loginForm.value)
-      .then(() => {
-        this.loading$.next(false);
-        this._router.navigate(['/home']);
-      })
-      .catch((err) => {
-        console.error(err);
-        this.loading$.next(false);
-        this.error$.next('Invalid email or password.');
-      });
-  }
+  //   this._authService
+  //     .signIn(this.loginForm.value)
+  //     .then(() => {
+  //       this.loading$.next(false);
+  //       this._router.navigate(['/home']);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //       this.loading$.next(false);
+  //       this.error$.next('Invalid email or password.');
+  //     });
+  // }
 }

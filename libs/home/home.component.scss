@@ -6,42 +6,6 @@
   color: var(--bs-light);
   background-color: var(--bs-dark);
 
-  .sidebar {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 300px;
-    padding: 1rem;
-    gap: 1rem;
-
-    .dashboard-list {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: auto;
-      gap: 0.5rem;
-
-      .dashboard-list-item {
-        button {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-      }
-    }
-
-    .dropdown-menu {
-      padding: 0rem;
-
-      .dropdown-item {
-        display: flex;
-        align-items: center;
-        padding: 0.75rem;
-        cursor: pointer;
-        gap: 1rem;
-      }
-    }
-  }
-
   .content {
     display: flex;
     height: 100%;
