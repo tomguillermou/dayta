@@ -11,9 +11,6 @@ import {
   loadDashboardRequested,
   loadDashboardSuccess,
   loadDashboardFail,
-  updateDashboardRequested,
-  updateDashboardSuccess,
-  updateDashboardFail,
   createDashboardRequested,
   deleteDashboardRequested,
   loadDashboardsRequested,
@@ -28,7 +25,7 @@ import {
   logInRequested,
   logInSuccess,
 } from './actions';
-import { selectDashboard, selectUser } from './selectors';
+import { selectUser } from './selectors';
 
 export const loadDashboard = createEffect(
   (action$ = inject(Actions), dashboardClient = inject(DashboardClient)) => {
@@ -38,38 +35,6 @@ export const loadDashboard = createEffect(
       filter(Boolean),
       map((dashboard) => loadDashboardSuccess({ dashboard })),
       catchError((error) => of(loadDashboardFail({ error })))
-    );
-  },
-  { functional: true }
-);
-
-export const updateDashboardAfterNameChange = createEffect(
-  (action$ = inject(Actions), store = inject(Store)) => {
-    return action$.pipe(
-      ofType(loadDashboardSuccess),
-      withLatestFrom(store.select(selectDashboard)),
-      map(([{ dashboard }]) => updateDashboardRequested({ dashboard }))
-    );
-  },
-  { functional: true }
-);
-
-export const updateDashboard = createEffect(
-  (action$ = inject(Actions), dashboardClient = inject(DashboardClient), store = inject(Store)) => {
-    return action$.pipe(
-      ofType(updateDashboardRequested),
-      withLatestFrom(store.select(selectDashboard)),
-      switchMap(([{ dashboard }]) =>
-        from(
-          dashboardClient.updateDashboardById(dashboard.id, {
-            description: dashboard.description,
-            name: dashboard.name,
-          })
-        )
-      ),
-      filter(Boolean),
-      map((dashboard) => updateDashboardSuccess({ dashboard })),
-      catchError((error) => of(updateDashboardFail({ error })))
     );
   },
   { functional: true }

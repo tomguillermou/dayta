@@ -11,13 +11,13 @@ export class DashboardClient {
   constructor(private supabase: SupabaseService) {}
 
   async createDashboard(dashboard: NewDashboard): Promise<Dashboard | null> {
-    const { data, error } = await this.supabase.client.from('dashboards').insert(dashboard).single<Dashboard>();
+    const { data, error } = await this.supabase.client.from('dashboards').insert(dashboard).select();
 
     if (error) {
       throw error;
     }
 
-    return data;
+    return data?.[0] as Dashboard;
   }
 
   async getDashboardById(dashboard_id: Dashboard['id']): Promise<Dashboard | null> {
