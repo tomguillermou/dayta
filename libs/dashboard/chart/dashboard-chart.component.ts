@@ -11,6 +11,8 @@ import {
   ApexTooltip,
 } from 'ng-apexcharts';
 
+import { mockData } from './mock-data';
+
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -31,13 +33,6 @@ export class DashboardChartComponent {
   chartOptions: ChartOptions;
 
   constructor() {
-    let ts2 = 1484418600000;
-    const dates = [{ x: ts2, y: 0 }];
-    for (let i = 0; i < 30; i++) {
-      ts2 = ts2 + 60 * 3600;
-      dates.push({ x: ts2, y: Math.floor(Math.random() * 90) + 10 });
-    }
-
     this.chartOptions = {
       chart: {
         height: 600,
@@ -66,7 +61,7 @@ export class DashboardChartComponent {
       },
       series: [
         {
-          data: dates,
+          data: mockData(),
         },
       ],
       xaxis: {
