@@ -1,24 +1,24 @@
-<ng-container *nfIf="vm$ | async as vm">
-  <button class="btn" (click)="onCreateDashboard(vm.user)" *ngIf="vm.user">
-    <i class="bi-plus"></i>Create new dashboard
+<ng-container *ngIf="vm$ | async as vm">
+  <button class="btn btn-success mb-4" (click)="onCreateDashboard(vm.user)" *ngIf="vm.user">
+    Create new dashboard
   </button>
 
-  <p class="message-empty-list" *ngIf="!vm.dashboards.length">No dashboard found, create one! </p>
-  <div class="dashboard-list" *ngIf="vm.dashboards.length">
-    <div class="dashboard-list-item" *ngFor="let dashboard of vm.dashboards">
-      <a [routerLink]="['/dashboards', dashboard.id]" routerLinkActive="active">
-        <span class="btn-text">{{ dashboard.name }}</span>
+  <h2>Dashboards</h2>
+
+  <p class="message-empty-list" *ngIf="!vm.dashboards.length">No dashboard found, create one!</p>
+
+  <div class="list-group mb-auto" *ngIf="vm.dashboards.length">
+    <ng-container *ngFor="let dashboard of vm.dashboards">
+      <a
+        class="list-group-item list-group-item-light list-group-item-action text-nowrap text-truncate overflow-hidden"
+        [routerLink]="['/dashboards', dashboard.id]"
+        routerLinkActive="active"
+      >
+        {{ dashboard.name }}
         <!-- <i class="bi-trash" (click)="onDeleteDashboard(dashboard)"></i> -->
       </a>
-    </div>
+    </ng-container>
   </div>
 
-  <div class="user" *ngIf="vm.user">
-    <ul class="dropdown-menu" data-bs-theme="dark">
-      <li class="dropdown-item" (click)="onSignOut()"><i class="bi-box-arrow-right"></i>Sign out</li>
-    </ul>
-    <button class="btn btn-outline-secondary" type="button" data-bs-toggle="dropdown">
-      <i class="bi-chevron-expand"></i>{{ vm.user.email }}
-    </button>
-  </div>
+  <button class="btn btn-outline-danger" type="button" (click)="onSignOut()">Sign out</button>
 </ng-container>
