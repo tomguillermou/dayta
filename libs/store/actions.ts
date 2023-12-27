@@ -44,8 +44,8 @@ export const {
 });
 
 export const {
-  loadDashboardFail,
   loadDashboardRequested,
+  loadDashboardFail,
   loadDashboardSuccess,
   dashboardNameChanged,
   dashboardDescriptionChanged,
