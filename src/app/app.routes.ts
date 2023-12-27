@@ -11,12 +11,10 @@ export const routes: Routes = [
   },
   {
     path: 'dashboards',
-    pathMatch: 'full',
     canActivate: [authGuard],
     children: [
       {
         path: ':id',
-        pathMatch: 'full',
         loadChildren: () => import('@libs/dashboard/page').then((m) => m.dashboardPageRoutes),
       },
     ],
