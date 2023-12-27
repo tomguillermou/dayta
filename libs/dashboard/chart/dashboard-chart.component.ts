@@ -49,12 +49,14 @@ export class DashboardChartComponent {
       },
       stroke: {
         curve: 'straight',
+        colors: ['#0d6efd'],
       },
       theme: {
         mode: 'dark',
       },
       markers: {
         size: 4,
+        colors: ['#0d6efd'],
       },
       tooltip: {
         enabled: true,
