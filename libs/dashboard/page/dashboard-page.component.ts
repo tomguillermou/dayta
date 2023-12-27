@@ -1,44 +1,28 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { combineLatest, debounceTime, distinctUntilChanged, map } from 'rxjs';
+import { Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { combineLatest, map, tap } from 'rxjs';
 
-import { Dashboard } from '../dashboard';
+// import { Dashboard } from '../dashboard';
 import { DashboardChartComponent } from '../chart';
 import { Store } from '@ngrx/store';
-import { dashboardDescriptionChanged, dashboardNameChanged, selectDashboard } from '../../store';
+import { selectDashboard } from '../../store';
+import { SidebarComponent } from '@libs/sidebar';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DashboardChartComponent],
+  imports: [CommonModule, ReactiveFormsModule, DashboardChartComponent, SidebarComponent],
   selector: 'app-dashboard',
   templateUrl: './dashboard-page.component.html',
   styleUrls: ['./dashboard-page.component.scss'],
 })
-export class DashboardPageComponent implements OnInit {
-  dashboardName: FormControl<Dashboard['name']>;
-  dashboardDescription: FormControl<Dashboard['description']>;
-
+export class DashboardPageComponent {
   vm$ = combineLatest([this.store.select(selectDashboard)]).pipe(
+    tap(([dashboard]) => console.log('dashboard', dashboard)),
     map(([dashboard]) => ({
       dashboard,
     }))
   );
 
-  constructor(private fb: FormBuilder, private store: Store) {
-    this.dashboardName = this.fb.nonNullable.control('', Validators.required);
-    this.dashboardDescription = this.fb.nonNullable.control('', Validators.required);
-  }
-
-  ngOnInit(): void {
-    this.dashboardName.valueChanges.pipe(debounceTime(500), distinctUntilChanged()).subscribe((updatedName) => {
-      this.store.dispatch(dashboardNameChanged({ name: updatedName }));
-    });
-
-    this.dashboardDescription.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((updatedDescription) => {
-        this.store.dispatch(dashboardDescriptionChanged({ description: updatedDescription }));
-      });
-  }
+  constructor(private store: Store) {}
 }

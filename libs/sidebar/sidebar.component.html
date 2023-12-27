@@ -1,5 +1,5 @@
 <ng-container *ngIf="vm$ | async as vm">
-  <button class="btn btn-success mb-4" (click)="onCreateDashboard(vm.user)" *ngIf="vm.user">
+  <button class="btn btn-primary mb-4" (click)="onCreateDashboard(vm.user)" *ngIf="vm.user">
     Create new dashboard
   </button>
 
@@ -10,12 +10,11 @@
   <div class="list-group mb-auto" *ngIf="vm.dashboards.length">
     <ng-container *ngFor="let dashboard of vm.dashboards">
       <a
-        class="list-group-item list-group-item-light list-group-item-action text-nowrap text-truncate overflow-hidden"
+        class="list-group-item list-group-item-action text-nowrap text-truncate overflow-hidden"
         [routerLink]="['/dashboards', dashboard.id]"
         routerLinkActive="active"
       >
         {{ dashboard.name }}
-        <!-- <i class="bi-trash" (click)="onDeleteDashboard(dashboard)"></i> -->
       </a>
     </ng-container>
   </div>

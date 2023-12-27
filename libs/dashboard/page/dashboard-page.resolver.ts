@@ -6,7 +6,7 @@ import { loadDashboardRequested } from '../../store';
 
 export const dashboardPageResolver: ResolveFn<void> = (route: ActivatedRouteSnapshot) => {
   const store = inject(Store);
-  const dashboardId = route.paramMap.get('dashboard_id');
+  const dashboardId = route.paramMap.get('id');
 
   if (dashboardId) {
     store.dispatch(loadDashboardRequested({ dashboard_id: dashboardId }));

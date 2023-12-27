@@ -1,21 +1,12 @@
 <ng-container *ngIf="vm$ | async as vm">
-  <div class="dashboard-container" *ngIf="vm.dashboard">
-    <input
-      class="fs-1 form-control"
-      type="text"
-      name="name"
-      id="name"
-      [formControl]="dashboardName"
-      [value]="vm.dashboard.name"
-    />
-    <input
-      class="fs-4 form-control"
-      type="text"
-      name="description"
-      id="description"
-      [formControl]="dashboardDescription"
-      [value]="vm.dashboard.description"
-    />
-    <app-dashboard-chart></app-dashboard-chart>
+  <div class="container-fluid d-flex p-0">
+    <app-sidebar></app-sidebar>
+    <ng-container *ngIf="vm.dashboard as dashboard">
+      <div class="container p-3">
+        <h1>{{ dashboard.name }}</h1>
+        <p class="lead">{{ dashboard.description }}</p>
+        <app-dashboard-chart></app-dashboard-chart>
+      </div>
+    </ng-container>
   </div>
 </ng-container>
