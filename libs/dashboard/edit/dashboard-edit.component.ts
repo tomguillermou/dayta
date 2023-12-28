@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { combineLatest, map, tap } from 'rxjs';
 
@@ -35,7 +36,11 @@ export class DashboardEditComponent {
     })
   );
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {}
+  constructor(private formBuilder: FormBuilder, private router: Router, private store: Store) {}
+
+  onCancelEdit(dashboard: Dashboard): void {
+    this.router.navigate(['/dashboards', dashboard.id]);
+  }
 
   onEditDashboard(dashboard: Dashboard): void {
     const formValue = this.editionForm.getRawValue();
