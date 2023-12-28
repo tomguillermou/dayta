@@ -3,7 +3,6 @@ import { createReducer, on } from '@ngrx/store';
 import { type AppState, initialAppState } from './state';
 import {
   createDashboardSuccess,
-  deleteDashboardSuccess,
   loadDashboardSuccess,
   loadDashboardsSuccess,
   logInSuccess,
@@ -22,13 +21,6 @@ export const appReducer = createReducer(
   ),
   on(signOutSuccess, (): AppState => ({ ...initialAppState })),
   on(
-    loadDashboardsSuccess,
-    (state, { dashboards }): AppState => ({
-      ...state,
-      dashboards: [...dashboards],
-    })
-  ),
-  on(
     createDashboardSuccess,
     (state, { dashboard }): AppState => ({
       ...state,
@@ -36,10 +28,10 @@ export const appReducer = createReducer(
     })
   ),
   on(
-    deleteDashboardSuccess,
-    (state, { dashboard }): AppState => ({
+    loadDashboardsSuccess,
+    (state, { dashboards }): AppState => ({
       ...state,
-      dashboards: [...state.dashboards.filter((d) => d.id !== dashboard.id)],
+      dashboards: [...dashboards],
     })
   ),
   on(

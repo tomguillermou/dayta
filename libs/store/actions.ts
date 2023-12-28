@@ -37,7 +37,7 @@ export const {
     'Create Dashboard Requested': props<{ name: string; description: string; user_id: string }>(),
     'Create Dashboard Success': props<{ dashboard: Dashboard }>(),
     'Create Dashboard Fail': props<{ error: string }>(),
-    'Delete Dashboard Requested': props<{ dashboard: Dashboard }>(),
+    'Delete Dashboard Requested': props<{ dashboard_id: Dashboard['id'] }>(),
     'Delete Dashboard Success': props<{ dashboard: Dashboard }>(),
     'Delete Dashboard Fail': props<{ error: string }>(),
   },
@@ -53,7 +53,7 @@ export const {
 } = createActionGroup({
   source: 'Dashboard Page',
   events: {
-    'Load Dashboard Requested': props<{ dashboard_id: string }>(),
+    'Load Dashboard Requested': props<{ dashboard_id: Dashboard['id'] }>(),
     'Load Dashboard Success': props<{ dashboard: Dashboard }>(),
     'Load Dashboard Fail': props<{ error: string }>(),
     'Update Dashboard Requested': props<{ dashboard: Dashboard }>(),

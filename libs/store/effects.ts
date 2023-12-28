@@ -84,13 +84,23 @@ export const deleteDashboard = createEffect(
   (action$ = inject(Actions), dashboardRepo = inject(DashboardClient)) => {
     return action$.pipe(
       ofType(deleteDashboardRequested),
-      switchMap(({ dashboard }) => dashboardRepo.deleteDashboardById(dashboard.id)),
+      switchMap(({ dashboard_id }) => dashboardRepo.deleteDashboardById(dashboard_id)),
       filter(Boolean),
       map((dashboard) => deleteDashboardSuccess({ dashboard })),
       catchError((error) => of(deleteDashboardFail({ error })))
     );
   },
   { functional: true }
+);
+
+export const afterDeleteDashboard = createEffect(
+  (action$ = inject(Actions), router = inject(Router)) => {
+    return action$.pipe(
+      ofType(deleteDashboardSuccess),
+      tap(() => router.navigate(['/home']))
+    );
+  },
+  { functional: true, dispatch: false }
 );
 
 export const signIn = createEffect(

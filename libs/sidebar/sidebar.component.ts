@@ -8,7 +8,6 @@ import { User } from '@libs/auth';
 import { Dashboard } from 'libs/dashboard';
 import {
   createDashboardRequested,
-  deleteDashboardRequested,
   loadDashboardsRequested,
   signOutRequested,
   selectDashboards,
@@ -48,10 +47,6 @@ export class SidebarComponent {
         description: 'Describe your dashboard here',
       })
     );
-  }
-
-  onDeleteDashboard(dashboard: Dashboard): void {
-    this.store.dispatch(deleteDashboardRequested({ dashboard }));
   }
 
   onSignOut(): void {

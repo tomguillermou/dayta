@@ -11,13 +11,17 @@ export class DashboardClient {
   constructor(private supabase: SupabaseService) {}
 
   async createDashboard(dashboard: NewDashboard): Promise<Dashboard | null> {
-    const { data, error } = await this.supabase.client.from('dashboards').insert(dashboard).select();
+    const { data, error } = await this.supabase.client
+      .from('dashboards')
+      .insert(dashboard)
+      .select()
+      .single<Dashboard>();
 
     if (error) {
       throw error;
     }
 
-    return data?.[0] as Dashboard;
+    return data;
   }
 
   async getDashboardById(dashboard_id: Dashboard['id']): Promise<Dashboard | null> {
@@ -56,6 +60,7 @@ export class DashboardClient {
       .from('dashboards')
       .update(updates)
       .eq('id', dashboard_id)
+      .select()
       .single<Dashboard>();
 
     if (error) {
@@ -70,6 +75,7 @@ export class DashboardClient {
       .from('dashboards')
       .delete()
       .eq('id', dashboard_id)
+      .select()
       .single<Dashboard>();
 
     if (error) {
