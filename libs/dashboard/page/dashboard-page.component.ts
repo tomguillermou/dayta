@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { combineLatest, map } from 'rxjs';
-
-// import { Dashboard } from '../dashboard';
-import { DashboardChartComponent } from '../chart';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { deleteDashboardRequested, selectDashboard } from '../../store';
+import { combineLatest, map, tap } from 'rxjs';
+
+import { DashboardChartComponent } from '../chart';
+import { deleteDashboardRequested, selectDashboard, updateDashboardRequested } from '../../store';
 import { SidebarComponent } from '@libs/sidebar';
+import { Dashboard } from '../dashboard';
 
 @Component({
   standalone: true,
@@ -17,16 +17,33 @@ import { SidebarComponent } from '@libs/sidebar';
   styleUrls: ['./dashboard-page.component.scss'],
 })
 export class DashboardPageComponent {
+  editionForm = this.formBuilder.nonNullable.group({
+    name: ['', Validators.required],
+    description: ['', Validators.required],
+  });
+
   vm$ = combineLatest([this.store.select(selectDashboard)]).pipe(
     map(([dashboard]) => ({
       dashboard,
-    }))
+    })),
+    tap(({ dashboard }) => {
+      this.editionForm.patchValue({
+        name: dashboard?.name ?? '',
+        description: dashboard?.description ?? '',
+      });
+    })
   );
 
-  constructor(private store: Store) {}
+  constructor(private formBuilder: FormBuilder, private store: Store) {}
 
-  onDeleteDashboard(dashboardId: string): void {
-    this.store.dispatch(deleteDashboardRequested({ dashboard_id: dashboardId }));
+  onDeleteDashboard(dashboard: Dashboard): void {
+    this.store.dispatch(deleteDashboardRequested({ dashboard_id: dashboard.id }));
+  }
+
+  onEditDashboard(dashboard: Dashboard): void {
+    const formValue = this.editionForm.getRawValue();
+
+    this.store.dispatch(updateDashboardRequested({ dashboard: { ...dashboard, ...formValue } }));
   }
 
   mockData(): Array<{ x: number; y: number }> {

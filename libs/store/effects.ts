@@ -24,6 +24,9 @@ import {
   signOutSuccess,
   logInRequested,
   logInSuccess,
+  updateDashboardRequested,
+  updateDashboardSuccess,
+  updateDashboardFail,
 } from './actions';
 import { selectUser } from './selectors';
 
@@ -78,6 +81,19 @@ export const afterCreateDashboard = createEffect(
     );
   },
   { functional: true, dispatch: false }
+);
+
+export const updateDashboard = createEffect(
+  (action$ = inject(Actions), dashboardClient = inject(DashboardClient)) => {
+    return action$.pipe(
+      ofType(updateDashboardRequested),
+      switchMap(({ dashboard }) => dashboardClient.updateDashboardById(dashboard.id, dashboard)),
+      filter(Boolean),
+      map((dashboard) => updateDashboardSuccess({ dashboard })),
+      catchError((error) => of(updateDashboardFail({ error })))
+    );
+  },
+  { functional: true }
 );
 
 export const deleteDashboard = createEffect(
