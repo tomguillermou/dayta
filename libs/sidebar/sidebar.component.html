@@ -1,11 +1,9 @@
 <ng-container *ngIf="vm$ | async as vm">
-  <button class="btn btn-primary mb-4" (click)="onCreateDashboard(vm.user)" *ngIf="vm.user">
-    Create new dashboard
-  </button>
+  <button class="btn btn-primary mb-4" (click)="onCreateDashboard(vm.user)" *ngIf="vm.user">Create a dashboard</button>
 
   <h2>Dashboards</h2>
 
-  <p class="message-empty-list" *ngIf="!vm.dashboards.length">No dashboard found, create one!</p>
+  <p class="mb-auto" *ngIf="!vm.dashboards.length">No dashboard found, create one!</p>
 
   <div class="list-group mb-auto" *ngIf="vm.dashboards.length">
     <ng-container *ngFor="let dashboard of vm.dashboards">

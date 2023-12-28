@@ -43,7 +43,7 @@ export class SidebarComponent {
     this.store.dispatch(
       createDashboardRequested({
         user_id: user.id,
-        name: 'New dashboard',
+        name: 'My new dashboard',
         description: 'Describe your dashboard here',
       })
     );
