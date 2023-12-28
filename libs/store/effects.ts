@@ -63,7 +63,7 @@ export const loadDashboards = createEffect(
       withLatestFrom(store.select(selectUser)),
       map(([, user]) => user),
       filter(Boolean),
-      switchMap((user) => dashboardClient.getDashboardsByOwnerId(user.id)),
+      switchMap((user) => dashboardClient.getDashboardsByUserId(user.id)),
       map((dashboards) => loadDashboardsSuccess({ dashboards })),
       catchError((error) => of(loadDashboardsFail({ error })))
     );
@@ -76,7 +76,7 @@ export const createDashboard = createEffect(
     return action$.pipe(
       ofType(createDashboardRequested),
       switchMap(({ user_id, name, description }) =>
-        dashboardClient.createDashboard({ name, description, owner_id: user_id })
+        dashboardClient.createDashboard({ name, description, user_id: user_id })
       ),
       filter(Boolean),
       map((dashboard) => createDashboardSuccess({ dashboard })),

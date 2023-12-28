@@ -38,11 +38,11 @@ export class DashboardClient {
     return data;
   }
 
-  async getDashboardsByOwnerId(owner_id: Dashboard['owner_id']): Promise<Array<Pick<Dashboard, 'id' | 'name'>>> {
+  async getDashboardsByUserId(userId: Dashboard['user_id']): Promise<Array<Pick<Dashboard, 'id' | 'name'>>> {
     const { data, error } = await this.supabase.client
       .from('dashboards')
       .select('id, name')
-      .eq('owner_id', owner_id)
+      .eq('user_id', userId)
       .order('created_at', { ascending: false });
 
     if (error) {
