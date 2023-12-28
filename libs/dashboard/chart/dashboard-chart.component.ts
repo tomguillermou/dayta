@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Store } from '@ngrx/store';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -10,6 +11,9 @@ import {
   NgApexchartsModule,
   ApexTooltip,
 } from 'ng-apexcharts';
+import { combineLatest, map, tap } from 'rxjs';
+
+import { selectDashboard } from '@libs/store';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -23,16 +27,24 @@ export type ChartOptions = {
 
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, NgApexchartsModule],
   selector: 'app-dashboard-chart',
   templateUrl: './dashboard-chart.component.html',
 })
-export class DashboardChartComponent implements OnInit {
-  @Input() chartData!: Array<{ x: number; y: number }>;
+export class DashboardChartComponent {
+  vm$ = combineLatest(this.store.select(selectDashboard)).pipe(
+    map(([dashboard]) => ({ dashboard })),
+    tap(({ dashboard }) => {
+      if (dashboard) {
+        this.chartOptions.series = [{ data: dashboard.chart_data }];
+      }
+    })
+  );
 
-  chartOptions!: ChartOptions;
+  chartOptions: ChartOptions;
 
-  ngOnInit(): void {
+  constructor(private store: Store) {
     this.chartOptions = {
       chart: {
         height: 600,
@@ -46,9 +58,7 @@ export class DashboardChartComponent implements OnInit {
         curve: 'straight',
         colors: ['#0d6efd'],
       },
-      theme: {
-        mode: 'dark',
-      },
+      theme: { mode: 'dark' },
       markers: {
         size: 4,
         colors: ['#0d6efd'],
@@ -59,14 +69,8 @@ export class DashboardChartComponent implements OnInit {
           return `<span class="fs-4">${series[seriesIndex][dataPointIndex]}</span>`;
         },
       },
-      series: [
-        {
-          data: this.chartData,
-        },
-      ],
-      xaxis: {
-        type: 'datetime',
-      },
+      series: [{ data: [] }],
+      xaxis: { type: 'datetime' },
     };
   }
 }

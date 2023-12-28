@@ -1,9 +1,13 @@
-<apx-chart
-  [series]="chartOptions.series"
-  [chart]="chartOptions.chart"
-  [xaxis]="chartOptions.xaxis"
-  [stroke]="chartOptions.stroke"
-  [theme]="chartOptions.theme"
-  [markers]="chartOptions.markers"
-  [tooltip]="chartOptions.tooltip"
-></apx-chart>
+<ng-container *ngIf="vm$ | async as vm">
+  <ng-container *ngIf="vm.dashboard as dashboard">
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [stroke]="chartOptions.stroke"
+      [theme]="chartOptions.theme"
+      [markers]="chartOptions.markers"
+      [tooltip]="chartOptions.tooltip"
+    ></apx-chart>
+  </ng-container>
+</ng-container>
