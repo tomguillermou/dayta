@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { SupabaseService } from '@libs/supabase';
 
 import { Dashboard, NewDashboard } from '../dashboard';
-import { mockChartData } from './mock-chart-data';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +35,7 @@ export class DashboardClient {
       throw error;
     }
 
-    return { ...data, chart_data: mockChartData() };
+    return data;
   }
 
   async getDashboardsByOwnerId(owner_id: Dashboard['owner_id']): Promise<Array<Pick<Dashboard, 'id' | 'name'>>> {
