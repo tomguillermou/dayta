@@ -4,20 +4,9 @@ import { authGuard } from '@libs/auth';
 
 export const routes: Routes = [
   {
-    path: 'home',
-    pathMatch: 'full',
-    canActivate: [authGuard],
-    loadComponent: () => import('@libs/home').then((m) => m.HomeComponent),
-  },
-  {
     path: 'dashboards',
     canActivate: [authGuard],
-    children: [
-      {
-        path: ':id',
-        loadChildren: () => import('@libs/dashboard/page').then((m) => m.dashboardPageRoutes),
-      },
-    ],
+    loadChildren: () => import('@libs/dashboard/page').then((m) => m.dashboardPageRoutes),
   },
   { path: 'login', pathMatch: 'full', loadComponent: () => import('@libs/login').then((m) => m.LoginComponent) },
   {
@@ -25,5 +14,5 @@ export const routes: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('@libs/reset-password').then((m) => m.ResetPasswordComponent),
   },
-  { path: '**', redirectTo: '/home' },
+  { path: '**', redirectTo: '/dashboards' },
 ];

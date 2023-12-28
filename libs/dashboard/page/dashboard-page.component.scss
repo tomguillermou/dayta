@@ -1,1 +1,23 @@
+.home-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding: 0px;
+  color: var(--bs-light);
+  background-color: var(--bs-dark);
 
+  // .content {
+  //   display: flex;
+  //   height: 100%;
+  //   width: 100%;
+  //   padding: 1rem;
+
+  //   .message-no-current-dashboard {
+  //     display: flex;
+  //     align-items: center;
+  //     justify-content: center;
+  //     width: 100%;
+  //     font-size: 3rem;
+  //   }
+  // }
+}

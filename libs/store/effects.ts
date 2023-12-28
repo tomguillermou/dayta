@@ -113,7 +113,7 @@ export const afterDeleteDashboard = createEffect(
   (action$ = inject(Actions), router = inject(Router)) => {
     return action$.pipe(
       ofType(deleteDashboardSuccess),
-      tap(() => router.navigate(['/home']))
+      tap(() => router.navigate(['/dashboards']))
     );
   },
   { functional: true, dispatch: false }
@@ -135,7 +135,7 @@ export const afterSignIn = createEffect(
     return action$.pipe(
       ofType(logInSuccess),
       tap(({ user }) => setUserInStorage(user)),
-      tap(() => router.navigate(['/home']))
+      tap(() => router.navigate(['/dashboards']))
     );
   },
   { functional: true, dispatch: false }

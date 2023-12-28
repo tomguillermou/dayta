@@ -44,21 +44,4 @@ export class LoginComponent {
       this.error$.next('Invalid email or password.');
     }
   }
-
-  // private signIn(): void {
-  //   this.error$.next('');
-  //   this.loading$.next(true);
-
-  //   this._authService
-  //     .signIn(this.loginForm.value)
-  //     .then(() => {
-  //       this.loading$.next(false);
-  //       this._router.navigate(['/home']);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //       this.loading$.next(false);
-  //       this.error$.next('Invalid email or password.');
-  //     });
-  // }
 }
