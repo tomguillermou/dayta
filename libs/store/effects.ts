@@ -34,10 +34,13 @@ export const loadDashboard = createEffect(
   (action$ = inject(Actions), dashboardClient = inject(DashboardClient)) => {
     return action$.pipe(
       ofType(loadDashboardRequested),
-      switchMap((action) => from(dashboardClient.getDashboardById(action.dashboard_id))),
-      filter(Boolean),
-      map((dashboard) => loadDashboardSuccess({ dashboard })),
-      catchError((error) => of(loadDashboardFail({ error })))
+      switchMap((action) =>
+        from(dashboardClient.getDashboardById(action.dashboard_id)).pipe(
+          filter(Boolean),
+          map((dashboard) => loadDashboardSuccess({ dashboard })),
+          catchError((error) => of(loadDashboardFail({ error })))
+        )
+      )
     );
   },
   { functional: true }
