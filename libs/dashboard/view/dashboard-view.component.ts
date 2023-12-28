@@ -42,6 +42,8 @@ export class DashboardViewComponent {
           },
         })
       );
+
+      this.addValue.reset();
     }
   }
 
