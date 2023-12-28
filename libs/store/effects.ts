@@ -43,6 +43,16 @@ export const loadDashboard = createEffect(
   { functional: true }
 );
 
+export const afterLoadDashboardFail = createEffect(
+  (action$ = inject(Actions), router = inject(Router)) => {
+    return action$.pipe(
+      ofType(loadDashboardFail),
+      tap(() => router.navigate(['/dashboards']))
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
 export const loadDashboards = createEffect(
   (action$ = inject(Actions), store = inject(Store), dashboardClient = inject(DashboardClient)) => {
     return action$.pipe(
@@ -73,7 +83,7 @@ export const createDashboard = createEffect(
   { functional: true }
 );
 
-export const afterCreateDashboard = createEffect(
+export const afterCreateDashboardSuccess = createEffect(
   (action$ = inject(Actions), router = inject(Router)) => {
     return action$.pipe(
       ofType(createDashboardSuccess),
@@ -96,7 +106,7 @@ export const updateDashboard = createEffect(
   { functional: true }
 );
 
-export const afterUpdateDashboard = createEffect(
+export const afterUpdateDashboardSuccess = createEffect(
   (action$ = inject(Actions), router = inject(Router)) => {
     return action$.pipe(
       ofType(updateDashboardSuccess),
@@ -119,7 +129,7 @@ export const deleteDashboard = createEffect(
   { functional: true }
 );
 
-export const afterDeleteDashboard = createEffect(
+export const afterDeleteDashboardSuccess = createEffect(
   (action$ = inject(Actions), router = inject(Router)) => {
     return action$.pipe(
       ofType(deleteDashboardSuccess),
@@ -140,7 +150,7 @@ export const signIn = createEffect(
   { functional: true }
 );
 
-export const afterSignIn = createEffect(
+export const afterSignInSuccess = createEffect(
   (action$ = inject(Actions), router = inject(Router)) => {
     return action$.pipe(
       ofType(logInSuccess),
@@ -162,7 +172,7 @@ export const signOut = createEffect(
   { functional: true }
 );
 
-export const afterSignOut = createEffect(
+export const afterSignOutSuccess = createEffect(
   (action$ = inject(Actions), router = inject(Router)) => {
     return action$.pipe(
       ofType(signOutSuccess),
