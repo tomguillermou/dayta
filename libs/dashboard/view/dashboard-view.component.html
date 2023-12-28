@@ -8,6 +8,10 @@
         </div>
 
         <div class="d-flex gap-3">
+          <div class="input-group">
+            <input type="text" class="form-control" [formControl]="addValue" placeholder="Value" />
+            <button class="input-group-text btn btn-primary" (click)="onAddValue(dashboard)">Add value</button>
+          </div>
           <button class="btn btn-primary" type="button" (click)="onEditDashboard(dashboard)">Edit</button>
           <button class="btn btn-outline-danger" type="button" (click)="onDeleteDashboard(dashboard)">Delete</button>
         </div>
