@@ -3,7 +3,8 @@ export type Dashboard = {
   name: string;
   description: string;
   owner_id: string;
+  chart_data: Array<{ x: number; y: number }>;
   created_at: Date;
 };
 
-export type NewDashboard = Omit<Dashboard, 'id' | 'created_at'>;
+export type NewDashboard = Pick<Dashboard, 'name' | 'description' | 'owner_id'>;

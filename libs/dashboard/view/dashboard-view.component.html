@@ -12,7 +12,7 @@
           <button class="btn btn-outline-danger" type="button" (click)="onDeleteDashboard(dashboard)">Delete</button>
         </div>
       </div>
-      <app-dashboard-chart [chartData]="mockData()"></app-dashboard-chart>
+      <app-dashboard-chart [chartData]="dashboard.chart_data"></app-dashboard-chart>
     </div>
   </ng-container>
 </ng-container>
