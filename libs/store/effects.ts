@@ -4,7 +4,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { switchMap, map, catchError, of, from, filter, withLatestFrom, tap } from 'rxjs';
 
-import { AuthService, deleteUserFromStorage, setUserInStorage } from '@libs/auth';
+import { deleteUserFromStorage, setUserInStorage } from '@libs/auth';
+import { AuthClient } from '@libs/auth/client';
 import { DashboardClient } from '@libs/dashboard/client';
 
 import {
@@ -143,10 +144,10 @@ export const afterDeleteDashboardSuccess = createEffect(
 );
 
 export const signIn = createEffect(
-  (action$ = inject(Actions), authService = inject(AuthService)) => {
+  (action$ = inject(Actions), authClient = inject(AuthClient)) => {
     return action$.pipe(
       ofType(logInRequested),
-      switchMap((credentials) => authService.signIn(credentials)),
+      switchMap((credentials) => authClient.signIn(credentials)),
       map((user) => logInSuccess({ user }))
     );
   },
@@ -165,10 +166,10 @@ export const afterSignInSuccess = createEffect(
 );
 
 export const signOut = createEffect(
-  (action$ = inject(Actions), authService = inject(AuthService)) => {
+  (action$ = inject(Actions), authClient = inject(AuthClient)) => {
     return action$.pipe(
       ofType(signOutRequested),
-      switchMap(() => authService.signOut()),
+      switchMap(() => authClient.signOut()),
       map(() => signOutSuccess())
     );
   },

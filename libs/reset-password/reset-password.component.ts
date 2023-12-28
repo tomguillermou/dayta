@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { RouterLink } from '@angular/router';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 
-import { AuthService } from '@libs/auth';
+import { AuthClient } from '@libs/auth/client';
 
 type Alert = { message: string; type: 'success' | 'error' };
 
@@ -31,7 +31,7 @@ export class ResetPasswordComponent {
     alert: this.alert$.asObservable(),
   });
 
-  constructor(private _authService: AuthService, private _formBuilder: FormBuilder) {
+  constructor(private authClient: AuthClient, private _formBuilder: FormBuilder) {
     this.resetPasswordForm = this._formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
     });
@@ -49,7 +49,7 @@ export class ResetPasswordComponent {
     this.alert$.next(undefined);
     this.loading$.next(true);
 
-    this._authService.resetPassword(this.resetPasswordForm.value.email).then(
+    this.authClient.resetPassword(this.resetPasswordForm.value.email).then(
       () => {
         this.alert$.next({ message: 'Check your email for a password reset link.', type: 'success' });
         this.loading$.next(false);

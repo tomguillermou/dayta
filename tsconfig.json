@@ -45,6 +45,7 @@
     "paths": {
       "@env": ["src/environments/environment"],
       "@libs/auth": ["libs/auth/index.ts"],
+      "@libs/auth/client": ["libs/auth/client/index.ts"],
       "@libs/dashboard": ["libs/dashboard/index.ts"],
       "@libs/dashboard/client": ["libs/dashboard/client/index.ts"],
       "@libs/dashboard/page": ["libs/dashboard/page/index.ts"],
