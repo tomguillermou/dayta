@@ -3,6 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import { type AppState, initialAppState } from './state';
 import {
   createDashboardSuccess,
+  deleteDashboardSuccess,
   loadDashboardSuccess,
   loadDashboardsSuccess,
   logInSuccess,
@@ -46,6 +47,13 @@ export const appReducer = createReducer(
     (state, { dashboard }): AppState => ({
       ...state,
       dashboard: { ...dashboard },
+    })
+  ),
+  on(
+    deleteDashboardSuccess,
+    (state, { dashboard }): AppState => ({
+      ...state,
+      dashboards: state.dashboards.filter((item) => item.id !== dashboard.id),
     })
   )
 );
