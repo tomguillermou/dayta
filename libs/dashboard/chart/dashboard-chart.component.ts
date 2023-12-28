@@ -6,7 +6,6 @@ import {
   ApexChart,
   ApexMarkers,
   ApexStroke,
-  ApexTheme,
   ApexXAxis,
   NgApexchartsModule,
   ApexTooltip,
@@ -20,7 +19,7 @@ export type ChartOptions = {
   chart: ApexChart;
   xaxis: ApexXAxis;
   stroke: ApexStroke;
-  theme: ApexTheme;
+
   markers: ApexMarkers;
   tooltip: ApexTooltip;
 };
@@ -49,7 +48,7 @@ export class DashboardChartComponent {
       chart: {
         height: 600,
         type: 'line',
-        background: '#212529',
+
         zoom: {
           enabled: false,
         },
@@ -58,7 +57,7 @@ export class DashboardChartComponent {
         curve: 'straight',
         colors: ['#0d6efd'],
       },
-      theme: { mode: 'dark' },
+
       markers: {
         size: 4,
         colors: ['#0d6efd'],
