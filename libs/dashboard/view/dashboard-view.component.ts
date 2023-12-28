@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { combineLatest, map, tap } from 'rxjs';
+import { combineLatest, map } from 'rxjs';
 
-import { deleteDashboardRequested, selectDashboard, updateDashboardRequested } from '../../store';
+import { deleteDashboardRequested, selectDashboard } from '../../store';
 import { DashboardChartComponent } from '../chart';
 import { Dashboard } from '../dashboard';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -17,33 +18,20 @@ import { Dashboard } from '../dashboard';
   styleUrls: ['./dashboard-view.component.scss'],
 })
 export class DashboardViewComponent {
-  editionForm = this.formBuilder.nonNullable.group({
-    name: ['', Validators.required],
-    description: ['', Validators.required],
-  });
-
   vm$ = combineLatest([this.store.select(selectDashboard)]).pipe(
     map(([dashboard]) => ({
       dashboard,
-    })),
-    tap(({ dashboard }) => {
-      this.editionForm.patchValue({
-        name: dashboard?.name ?? '',
-        description: dashboard?.description ?? '',
-      });
-    })
+    }))
   );
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {}
+  constructor(private router: Router, private store: Store) {}
 
   onDeleteDashboard(dashboard: Dashboard): void {
     this.store.dispatch(deleteDashboardRequested({ dashboard_id: dashboard.id }));
   }
 
   onEditDashboard(dashboard: Dashboard): void {
-    const formValue = this.editionForm.getRawValue();
-
-    this.store.dispatch(updateDashboardRequested({ dashboard: { ...dashboard, ...formValue } }));
+    this.router.navigate(['dashboards', dashboard.id, 'edit']);
   }
 
   mockData(): Array<{ x: number; y: number }> {

@@ -96,6 +96,16 @@ export const updateDashboard = createEffect(
   { functional: true }
 );
 
+export const afterUpdateDashboard = createEffect(
+  (action$ = inject(Actions), router = inject(Router)) => {
+    return action$.pipe(
+      ofType(updateDashboardSuccess),
+      tap(({ dashboard }) => router.navigate(['/dashboards', dashboard.id]))
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
 export const deleteDashboard = createEffect(
   (action$ = inject(Actions), dashboardRepo = inject(DashboardClient)) => {
     return action$.pipe(
