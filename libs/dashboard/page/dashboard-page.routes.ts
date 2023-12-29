@@ -1,10 +1,13 @@
 import { Routes } from '@angular/router';
 
+import { authGuard } from '@libs/auth';
+
 import { dashboardPageResolver } from './dashboard-page.resolver';
 
 export const dashboardPageRoutes: Routes = [
   {
     path: '',
+    canActivate: [authGuard],
     loadComponent: () => import('./dashboard-page.component').then((m) => m.DashboardPageComponent),
     children: [
       {

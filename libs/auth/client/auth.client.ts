@@ -1,5 +1,9 @@
+import { Injectable } from '@angular/core';
 import { SupabaseService, User } from '@libs/supabase';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthClient {
   constructor(private supabase: SupabaseService) {}
 

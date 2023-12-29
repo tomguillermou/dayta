@@ -1,10 +1,11 @@
 <ng-container *ngIf="vm$ | async as vm">
-  <div class="login-container">
-    <h2>Welcome back</h2>
+  <div class="d-flex flex-column position-absolute top-50 start-50 translate-middle" style="width: 300px">
+    <h1 class="text-center">Dayta</h1>
+    <p class="lead text-center text-nowrap">Made for non-automated data</p>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form class="d-flex flex-column gap-3" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <ng-container *ngIf="vm.error">
-        <div class="alert alert-danger" role="alert">{{ vm.error }}</div>
+        <div class="alert alert-danger m-0" role="alert">{{ vm.error }}</div>
       </ng-container>
 
       <div class="form-floating">
