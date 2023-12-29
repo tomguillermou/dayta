@@ -16,6 +16,11 @@ export const routes: Routes = [
     loadComponent: () => import('@libs/login').then((m) => m.LoginComponent),
   },
   {
+    path: 'register',
+    pathMatch: 'full',
+    loadComponent: () => import('@libs/register').then((m) => m.RegisterComponent),
+  },
+  {
     path: 'reset-password',
     pathMatch: 'full',
     loadComponent: () => import('@libs/reset-password').then((m) => m.ResetPasswordComponent),

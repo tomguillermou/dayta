@@ -1,0 +1,27 @@
+<div class="d-flex flex-column position-absolute top-50 start-50 translate-middle" style="width: 300px">
+  <h1 class="text-center">Dayta</h1>
+  <p class="lead text-center text-nowrap">Made for non-automated data</p>
+
+  <form class="d-flex flex-column gap-3" [formGroup]="registerFrom" (ngSubmit)="onRegister()">
+    <div class="form-floating">
+      <input class="form-control" type="email" id="email" formControlName="email" placeholder="Email" />
+      <label class="form-label" for="email">Email</label>
+    </div>
+
+    <div class="form-floating">
+      <input class="form-control" type="password" id="password" formControlName="password" placeholder="Password" />
+      <label class="form-label" for="password">Password</label>
+    </div>
+
+    <ng-container>
+      <button class="btn btn-primary" type="submit">Register</button>
+    </ng-container>
+
+    <div class="d-flex flex-column align-items-center gap-3">
+      <p>
+        Already a member?
+        <a class="link-primary" routerLink="/login">Login</a>
+      </p>
+    </div>
+  </form>
+</div>

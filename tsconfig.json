@@ -50,6 +50,7 @@
       "@libs/dashboard/client": ["libs/dashboard/client/index.ts"],
       "@libs/dashboard/page": ["libs/dashboard/page/index.ts"],
       "@libs/login": ["libs/login/index.ts"],
+      "@libs/register": ["libs/register/index.ts"],
       "@libs/reset-password": ["libs/reset-password/index.ts"],
       "@libs/sidebar": ["libs/sidebar/index.ts"],
       "@libs/store": ["libs/store/index.ts"],
