@@ -17,5 +17,8 @@
     </ng-container>
   </div>
 
-  <button class="btn btn-outline-danger" type="button" (click)="onSignOut()">Sign out</button>
+  <div class="d-flex flex-column align-items-center gap-2" *ngIf="vm.user as user">
+    <p class="fw-semibold mb-0">{{ user.email }}</p>
+    <button class="btn btn-outline-danger w-100" type="button" (click)="onSignOut()">Sign out</button>
+  </div>
 </ng-container>
