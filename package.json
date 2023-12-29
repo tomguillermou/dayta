@@ -20,9 +20,11 @@
     "@ngrx/store": "^17.0.1",
     "@ngrx/store-devtools": "^17.0.1",
     "@supabase/supabase-js": "^2.39.1",
+    "@sweetalert2/theme-bootstrap-4": "^5.0.15",
     "apexcharts": "^3.45.1",
     "ng-apexcharts": "^1.8.0",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.10.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
   },

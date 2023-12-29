@@ -7,6 +7,7 @@ import { switchMap, map, catchError, of, from, filter, withLatestFrom, tap } fro
 import { deleteUserFromStorage, setUserInStorage } from '@libs/auth';
 import { AuthClient } from '@libs/auth/client';
 import { DashboardClient } from '@libs/dashboard/client';
+import { Toaster } from '@libs/toaster';
 
 import {
   loadDashboardRequested,
@@ -91,10 +92,11 @@ export const createDashboard = createEffect(
 );
 
 export const afterCreateDashboardSuccess = createEffect(
-  (action$ = inject(Actions), router = inject(Router)) => {
+  (action$ = inject(Actions), router = inject(Router), toaster = inject(Toaster)) => {
     return action$.pipe(
       ofType(createDashboardSuccess),
-      tap(({ dashboard }) => router.navigate(['/dashboards', dashboard.id]))
+      tap(({ dashboard }) => router.navigate(['/dashboards', dashboard.id])),
+      tap(() => toaster.showSuccess({ text: 'Dashboard created' }))
     );
   },
   { functional: true, dispatch: false }
@@ -114,10 +116,11 @@ export const updateDashboard = createEffect(
 );
 
 export const afterUpdateDashboardSuccess = createEffect(
-  (action$ = inject(Actions), router = inject(Router)) => {
+  (action$ = inject(Actions), router = inject(Router), toaster = inject(Toaster)) => {
     return action$.pipe(
       ofType(updateDashboardSuccess),
-      tap(({ dashboard }) => router.navigate(['/dashboards', dashboard.id]))
+      tap(({ dashboard }) => router.navigate(['/dashboards', dashboard.id])),
+      tap(() => toaster.showSuccess({ text: 'Dashboard updated' }))
     );
   },
   { functional: true, dispatch: false }
@@ -137,10 +140,11 @@ export const deleteDashboard = createEffect(
 );
 
 export const afterDeleteDashboardSuccess = createEffect(
-  (action$ = inject(Actions), router = inject(Router)) => {
+  (action$ = inject(Actions), router = inject(Router), toaster = inject(Toaster)) => {
     return action$.pipe(
       ofType(deleteDashboardSuccess),
-      tap(() => router.navigate(['/dashboards']))
+      tap(() => router.navigate(['/dashboards'])),
+      tap(() => toaster.showSuccess({ text: 'Dashboard deleted' }))
     );
   },
   { functional: true, dispatch: false }

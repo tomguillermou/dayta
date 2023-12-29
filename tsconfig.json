@@ -54,7 +54,8 @@
       "@libs/reset-password": ["libs/reset-password/index.ts"],
       "@libs/sidebar": ["libs/sidebar/index.ts"],
       "@libs/store": ["libs/store/index.ts"],
-      "@libs/supabase": ["libs/supabase/index.ts"]
+      "@libs/supabase": ["libs/supabase/index.ts"],
+      "@libs/toaster": ["libs/toaster/index.ts"]
     }
   },
   "include": ["**/*.ts"],
