@@ -159,7 +159,7 @@ export const afterSignInSuccess = createEffect(
     return action$.pipe(
       ofType(logInSuccess),
       tap(({ user }) => setUserInStorage(user)),
-      tap(() => router.navigate(['/dashboards']))
+      tap(() => router.navigate(['/']))
     );
   },
   { functional: true, dispatch: false }
