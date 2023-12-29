@@ -12,6 +12,15 @@ export const { logInRequested, logInSuccess, logInFail } = createActionGroup({
   },
 });
 
+export const { signUpRequested, signUpSuccess, signUpFail } = createActionGroup({
+  source: 'Register Page',
+  events: {
+    'Sign Up Requested': props<{ email: string; password: string }>(),
+    'Sign Up Success': props<{ user: User }>(),
+    'Sign Up Fail': props<{ error: string }>(),
+  },
+});
+
 export const {
   signOutRequested,
   signOutSuccess,

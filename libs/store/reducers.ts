@@ -8,6 +8,7 @@ import {
   loadDashboardsSuccess,
   logInSuccess,
   signOutSuccess,
+  signUpSuccess,
   updateDashboardSuccess,
 } from './actions';
 
@@ -15,6 +16,13 @@ export const appReducer = createReducer(
   initialAppState,
   on(
     logInSuccess,
+    (state, { user }): AppState => ({
+      ...state,
+      user: { ...user },
+    })
+  ),
+  on(
+    signUpSuccess,
     (state, { user }): AppState => ({
       ...state,
       user: { ...user },

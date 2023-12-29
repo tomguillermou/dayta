@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { SupabaseService, User } from '@libs/supabase';
 
 @Injectable({
@@ -7,11 +8,18 @@ import { SupabaseService, User } from '@libs/supabase';
 export class AuthClient {
   constructor(private supabase: SupabaseService) {}
 
+  async signUp(credentials: { email: string; password: string }): Promise<User | null> {
+    const { data, error } = await this.supabase.client.auth.signUp({ ...credentials });
+
+    if (error) {
+      throw error;
+    }
+
+    return data.user;
+  }
+
   async signIn(credentials: { email: string; password: string }): Promise<User> {
-    const { data, error } = await this.supabase.client.auth.signInWithPassword({
-      email: credentials.email,
-      password: credentials.password,
-    });
+    const { data, error } = await this.supabase.client.auth.signInWithPassword({ ...credentials });
 
     if (error) {
       throw error;

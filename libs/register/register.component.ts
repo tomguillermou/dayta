@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+
+import { signUpRequested } from '@libs/store';
 
 @Component({
   standalone: true,
@@ -13,7 +16,7 @@ import { RouterLink } from '@angular/router';
 export class RegisterComponent {
   registerFrom: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private store: Store) {
     this.registerFrom = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -22,7 +25,7 @@ export class RegisterComponent {
 
   onRegister(): void {
     if (this.registerFrom.valid) {
-      console.log(this.registerFrom.value);
+      this.store.dispatch(signUpRequested({ ...this.registerFrom.value }));
     }
   }
 }

@@ -15,19 +15,22 @@ import {
   createDashboardRequested,
   deleteDashboardRequested,
   loadDashboardsRequested,
-  signOutRequested,
   loadDashboardsFail,
   createDashboardSuccess,
   deleteDashboardSuccess,
   loadDashboardsSuccess,
   createDashboardFail,
   deleteDashboardFail,
-  signOutSuccess,
   logInRequested,
   logInSuccess,
   updateDashboardRequested,
   updateDashboardSuccess,
   updateDashboardFail,
+  signUpRequested,
+  signUpSuccess,
+  signUpFail,
+  signOutRequested,
+  signOutSuccess,
 } from './actions';
 import { selectUser } from './selectors';
 
@@ -138,6 +141,33 @@ export const afterDeleteDashboardSuccess = createEffect(
     return action$.pipe(
       ofType(deleteDashboardSuccess),
       tap(() => router.navigate(['/dashboards']))
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+export const signUp = createEffect(
+  (action$ = inject(Actions), authClient = inject(AuthClient)) => {
+    return action$.pipe(
+      ofType(signUpRequested),
+      switchMap((credentials) =>
+        from(authClient.signUp(credentials)).pipe(
+          filter(Boolean),
+          map((user) => signUpSuccess({ user })),
+          catchError((error) => of(signUpFail({ error })))
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const afterSignUpSuccess = createEffect(
+  (action$ = inject(Actions), router = inject(Router)) => {
+    return action$.pipe(
+      ofType(signUpSuccess),
+      tap(({ user }) => setUserInStorage(user)),
+      tap(() => router.navigate(['/']))
     );
   },
   { functional: true, dispatch: false }
