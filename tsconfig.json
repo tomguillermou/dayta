@@ -46,6 +46,8 @@
       "@env": ["src/environments/environment"],
       "@libs/auth": ["libs/auth/index.ts"],
       "@libs/auth/client": ["libs/auth/client/index.ts"],
+      "@libs/auth/guards": ["libs/auth/guards/index.ts"],
+      "@libs/auth/storage": ["libs/auth/storage/index.ts"],
       "@libs/dashboard": ["libs/dashboard/index.ts"],
       "@libs/dashboard/client": ["libs/dashboard/client/index.ts"],
       "@libs/dashboard/page": ["libs/dashboard/page/index.ts"],

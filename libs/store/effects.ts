@@ -4,8 +4,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { switchMap, map, catchError, of, from, filter, withLatestFrom, tap } from 'rxjs';
 
-import { deleteUserFromStorage, setUserInStorage } from '@libs/auth';
 import { AuthClient } from '@libs/auth/client';
+import { deleteUserFromStorage, setUserInStorage } from '@libs/auth/storage';
 import { DashboardClient } from '@libs/dashboard/client';
 import { Toaster } from '@libs/toaster';
 

@@ -1,7 +1,7 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { User } from '@libs/auth';
 import { Dashboard } from 'libs/dashboard';
+import { User } from '@libs/supabase';
 
 export const { logInRequested, logInSuccess, logInFail } = createActionGroup({
   source: 'Login Page',

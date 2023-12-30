@@ -8,11 +8,14 @@ import { SupabaseService, User } from '@libs/supabase';
 export class AuthClient {
   constructor(private supabase: SupabaseService) {}
 
-  async signUp(credentials: { email: string; password: string }): Promise<User | null> {
+  async signUp(credentials: { email: string; password: string }): Promise<User> {
     const { data, error } = await this.supabase.client.auth.signUp({ ...credentials });
 
     if (error) {
       throw error;
+    }
+    if (!data.user) {
+      throw new Error('User is null after signing up');
     }
 
     return data.user;

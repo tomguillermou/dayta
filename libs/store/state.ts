@@ -1,5 +1,6 @@
-import { User, getUserFromStorage } from '@libs/auth';
+import { getUserFromStorage } from '@libs/auth/storage';
 import { Dashboard } from '@libs/dashboard';
+import { User } from '@libs/supabase';
 
 export type AppState = {
   user: User | null;
