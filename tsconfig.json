@@ -44,16 +44,13 @@
 
     "paths": {
       "@env": ["src/environments/environment"],
-      "@libs/auth": ["libs/auth/index.ts"],
       "@libs/auth/client": ["libs/auth/client/index.ts"],
       "@libs/auth/guards": ["libs/auth/guards/index.ts"],
+      "@libs/auth/page": ["libs/auth/page/index.ts"],
       "@libs/auth/storage": ["libs/auth/storage/index.ts"],
       "@libs/dashboard": ["libs/dashboard/index.ts"],
       "@libs/dashboard/client": ["libs/dashboard/client/index.ts"],
       "@libs/dashboard/page": ["libs/dashboard/page/index.ts"],
-      "@libs/login": ["libs/login/index.ts"],
-      "@libs/register": ["libs/register/index.ts"],
-      "@libs/reset-password": ["libs/reset-password/index.ts"],
       "@libs/sidebar": ["libs/sidebar/index.ts"],
       "@libs/store": ["libs/store/index.ts"],
       "@libs/supabase": ["libs/supabase/index.ts"],

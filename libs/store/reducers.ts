@@ -6,16 +6,16 @@ import {
   deleteDashboardSuccess,
   loadDashboardSuccess,
   loadDashboardsSuccess,
-  logInSuccess,
-  signOutSuccess,
+  signInSuccess,
   signUpSuccess,
+  signOutSuccess,
   updateDashboardSuccess,
 } from './actions';
 
 export const appReducer = createReducer(
   initialAppState,
   on(
-    logInSuccess,
+    signInSuccess,
     (state, { user }): AppState => ({
       ...state,
       user: { ...user },

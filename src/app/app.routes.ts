@@ -11,19 +11,8 @@ export const routes: Routes = [
     loadChildren: () => import('@libs/dashboard/page').then((m) => m.dashboardPageRoutes),
   },
   {
-    path: 'login',
-    pathMatch: 'full',
-    loadComponent: () => import('@libs/login').then((m) => m.LoginComponent),
-  },
-  {
-    path: 'register',
-    pathMatch: 'full',
-    loadComponent: () => import('@libs/register').then((m) => m.RegisterComponent),
-  },
-  {
-    path: 'reset-password',
-    pathMatch: 'full',
-    loadComponent: () => import('@libs/reset-password').then((m) => m.ResetPasswordComponent),
+    path: 'auth',
+    loadChildren: () => import('@libs/auth/page').then((m) => m.authPageRoutes),
   },
   {
     path: '**',

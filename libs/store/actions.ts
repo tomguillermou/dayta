@@ -3,17 +3,17 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Dashboard } from '@libs/dashboard';
 import { User } from '@libs/user';
 
-export const { logInRequested, logInSuccess, logInFail } = createActionGroup({
-  source: 'Login Page',
+export const { signInRequested, signInSuccess, signInFail } = createActionGroup({
+  source: 'Sign In Page',
   events: {
-    'Log In Requested': props<{ email: string; password: string }>(),
-    'Log In Success': props<{ user: User }>(),
-    'Log In Fail': props<{ error: string }>(),
+    'Sign In Requested': props<{ email: string; password: string }>(),
+    'Sign In Success': props<{ user: User }>(),
+    'Sign In Fail': props<{ error: string }>(),
   },
 });
 
 export const { signUpRequested, signUpSuccess, signUpFail } = createActionGroup({
-  source: 'Register Page',
+  source: 'Sign Up Page',
   events: {
     'Sign Up Requested': props<{ email: string; password: string }>(),
     'Sign Up Success': props<{ user: User }>(),

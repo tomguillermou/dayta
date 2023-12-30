@@ -22,16 +22,18 @@ import {
   loadDashboardsSuccess,
   createDashboardFail,
   deleteDashboardFail,
-  logInRequested,
-  logInSuccess,
   updateDashboardRequested,
   updateDashboardSuccess,
   updateDashboardFail,
   signUpRequested,
   signUpSuccess,
   signUpFail,
+  signInRequested,
+  signInSuccess,
+  signInFail,
   signOutRequested,
   signOutSuccess,
+  signOutFail,
 } from './actions';
 import { selectUser } from './selectors';
 
@@ -156,7 +158,6 @@ export const signUp = createEffect(
       ofType(signUpRequested),
       switchMap((credentials) =>
         from(authClient.signUp(credentials)).pipe(
-          filter(Boolean),
           map((user) => signUpSuccess({ user })),
           catchError((error) => of(signUpFail({ error })))
         )
@@ -180,9 +181,13 @@ export const afterSignUpSuccess = createEffect(
 export const signIn = createEffect(
   (action$ = inject(Actions), authClient = inject(AuthClient)) => {
     return action$.pipe(
-      ofType(logInRequested),
-      switchMap((credentials) => authClient.signIn(credentials)),
-      map((user) => logInSuccess({ user }))
+      ofType(signInRequested),
+      switchMap((credentials) =>
+        from(authClient.signIn(credentials)).pipe(
+          map((user) => signInSuccess({ user })),
+          catchError((error) => of(signInFail({ error })))
+        )
+      )
     );
   },
   { functional: true }
@@ -191,7 +196,7 @@ export const signIn = createEffect(
 export const afterSignInSuccess = createEffect(
   (action$ = inject(Actions), router = inject(Router)) => {
     return action$.pipe(
-      ofType(logInSuccess),
+      ofType(signInSuccess),
       tap(({ user }) => setUserInStorage(user)),
       tap(() => router.navigate(['/']))
     );
@@ -203,8 +208,12 @@ export const signOut = createEffect(
   (action$ = inject(Actions), authClient = inject(AuthClient)) => {
     return action$.pipe(
       ofType(signOutRequested),
-      switchMap(() => authClient.signOut()),
-      map(() => signOutSuccess())
+      switchMap(() =>
+        from(authClient.signOut()).pipe(
+          map(() => signOutSuccess()),
+          catchError((error) => of(signOutFail({ error })))
+        )
+      )
     );
   },
   { functional: true }
@@ -215,7 +224,7 @@ export const afterSignOutSuccess = createEffect(
     return action$.pipe(
       ofType(signOutSuccess),
       tap(() => deleteUserFromStorage()),
-      tap(() => router.navigate(['/login']))
+      tap(() => router.navigate(['/auth/sign-in']))
     );
   },
   { functional: true, dispatch: false }

@@ -9,5 +9,7 @@ export const authGuard: CanActivateFn = (): Observable<UrlTree | boolean> => {
   const store = inject(Store);
   const router = inject(Router);
 
-  return store.select(selectUser).pipe(map((user) => (user !== null ? true : router.createUrlTree(['login']))));
+  return store
+    .select(selectUser)
+    .pipe(map((user) => (user !== null ? true : router.createUrlTree(['auth', 'sign-in']))));
 };
