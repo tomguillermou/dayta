@@ -1,12 +1,12 @@
 {
-  "name": "angular-firebase",
+  "name": "dayta",
+  "private": true,
   "version": "0.0.0",
   "scripts": {
     "start": "ng serve",
     "build": "ng build",
     "lint": "eslint --quiet"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^17.0.0",
     "@angular/common": "^17.0.0",
