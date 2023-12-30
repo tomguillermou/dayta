@@ -2,10 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, combineLatest, map } from 'rxjs';
+import { combineLatest, map } from 'rxjs';
 
-import { User } from '@libs/auth';
-import { Dashboard } from 'libs/dashboard';
 import {
   createDashboardRequested,
   loadDashboardsRequested,
@@ -13,11 +11,7 @@ import {
   selectDashboards,
   selectUser,
 } from '@libs/store';
-
-type ViewModel = {
-  user: User | null;
-  dashboards: Array<Pick<Dashboard, 'id' | 'name'>>;
-};
+import { User } from '@libs/supabase';
 
 @Component({
   selector: 'app-sidebar',
@@ -28,7 +22,7 @@ type ViewModel = {
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent {
-  vm$: Observable<ViewModel> = combineLatest([this.store.select(selectUser), this.store.select(selectDashboards)]).pipe(
+  vm$ = combineLatest([this.store.select(selectUser), this.store.select(selectDashboards)]).pipe(
     map(([user, dashboards]) => ({
       user,
       dashboards,

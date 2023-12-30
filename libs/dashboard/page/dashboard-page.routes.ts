@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { authGuard } from '@libs/auth';
+import { authGuard } from '@libs/auth/guards';
 
 import { dashboardPageResolver } from './dashboard-page.resolver';
 
