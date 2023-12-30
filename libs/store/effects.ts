@@ -34,6 +34,9 @@ import {
   signOutRequested,
   signOutSuccess,
   signOutFail,
+  resetPasswordRequested,
+  resetPasswordSuccess,
+  resetPasswordFail,
 } from './actions';
 import { selectUser } from './selectors';
 
@@ -219,6 +222,32 @@ export const afterSignInSuccess = createEffect(
       ofType(signInSuccess),
       tap(({ user }) => setUserInStorage(user)),
       tap(() => router.navigate(['/']))
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+export const resetPassword = createEffect(
+  (action$ = inject(Actions), authClient = inject(AuthClient)) => {
+    return action$.pipe(
+      ofType(resetPasswordRequested),
+      switchMap(({ email }) =>
+        from(authClient.resetPassword(email)).pipe(
+          map(() => resetPasswordSuccess()),
+          catchError((error) => of(resetPasswordFail({ error: error.message })))
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const afterResetPassswordSuccess = createEffect(
+  (action$ = inject(Actions), router = inject(Router), toaster = inject(Toaster)) => {
+    return action$.pipe(
+      ofType(resetPasswordSuccess),
+      tap(() => router.navigate(['/auth/sign-in'])),
+      tap(() => toaster.showSuccess({ text: 'Password reset email sent' }))
     );
   },
   { functional: true, dispatch: false }

@@ -21,6 +21,15 @@ export const { signUpRequested, signUpSuccess, signUpFail } = createActionGroup(
   },
 });
 
+export const { resetPasswordRequested, resetPasswordSuccess, resetPasswordFail } = createActionGroup({
+  source: 'Reset Password Page',
+  events: {
+    'Reset Password Requested': props<{ email: string }>(),
+    'Reset Password Success': emptyProps(),
+    'Reset Password Fail': props<{ error: string }>(),
+  },
+});
+
 export const {
   signOutRequested,
   signOutSuccess,

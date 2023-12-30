@@ -12,10 +12,10 @@ export const authPageRoutes: Routes = [
         path: 'sign-up',
         loadComponent: () => import('../sign-up/sign-up.component').then((m) => m.SignUpComponent),
       },
-      // {
-      //   path: 'reset-password',
-      //   loadComponent: () => import('../reset-password/reset-password.component').then((m) => m.ResetPasswordComponent),
-      // },
+      {
+        path: 'reset-password',
+        loadComponent: () => import('../reset-password/reset-password.component').then((m) => m.ResetPasswordComponent),
+      },
     ],
   },
 ];
