@@ -19,7 +19,6 @@ export type ChartOptions = {
   chart: ApexChart;
   xaxis: ApexXAxis;
   stroke: ApexStroke;
-
   markers: ApexMarkers;
   tooltip: ApexTooltip;
 };
@@ -48,9 +47,15 @@ export class DashboardChartComponent {
       chart: {
         height: 600,
         type: 'line',
-
+        toolbar: {
+          tools: {
+            pan: false,
+          },
+        },
         zoom: {
-          enabled: false,
+          type: 'x',
+          enabled: true,
+          autoScaleYaxis: true,
         },
       },
       stroke: {
