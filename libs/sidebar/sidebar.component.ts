@@ -32,11 +32,11 @@ export class SidebarComponent {
     this.store.dispatch(loadDashboardsRequested());
   }
 
-  onCreateDashboard(user: User): void {
+  onCreateDashboard(user: User, dashboardCount: number): void {
     this.store.dispatch(
       createDashboardRequested({
         user_id: user.id,
-        name: 'My new dashboard',
+        name: `Dashboard #${dashboardCount + 1}`,
         description: 'Describe your dashboard here',
       })
     );
