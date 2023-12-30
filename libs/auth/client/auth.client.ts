@@ -12,21 +12,24 @@ export class AuthClient {
   async signUp(credentials: { email: string; password: string }): Promise<User> {
     const { data, error } = await this.supabase.client.auth.signUp({ ...credentials });
 
-    if (error) {
-      throw error;
-    }
-    if (!data.user) {
-      throw new Error('User is null after signing up');
+    if (error?.message === 'User already registered') {
+      throw new Error('User already registered');
+    } else if (error) {
+      // Implement logger
+      throw new Error('Internal server error');
     }
 
-    return data.user;
+    return data.user!;
   }
 
   async signIn(credentials: { email: string; password: string }): Promise<User> {
     const { data, error } = await this.supabase.client.auth.signInWithPassword({ ...credentials });
 
-    if (error) {
-      throw error;
+    if (error?.message === 'Invalid login credentials') {
+      throw new Error('Invalid credentials');
+    } else if (error) {
+      // Implement logger
+      throw new Error('Internal server error');
     }
 
     return data.user;

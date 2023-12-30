@@ -16,8 +16,9 @@ export class Toaster {
 
   showSuccess(params: { text: string }): void {
     this.toast.fire({
-      icon: 'success',
+      background: 'var(--bs-success-bg-subtle)',
       customClass: {
+        title: 'text-center text-black',
         timerProgressBar: 'progress-bar bg-success',
       },
       title: params.text,
@@ -26,8 +27,9 @@ export class Toaster {
 
   showError(params: { text: string }): void {
     this.toast.fire({
-      icon: 'error',
+      background: 'var(--bs-danger-bg-subtle)',
       customClass: {
+        title: 'text-center text-black',
         timerProgressBar: 'progress-bar bg-danger',
       },
       title: params.text,

@@ -159,7 +159,7 @@ export const signUp = createEffect(
       switchMap((credentials) =>
         from(authClient.signUp(credentials)).pipe(
           map((user) => signUpSuccess({ user })),
-          catchError((error) => of(signUpFail({ error })))
+          catchError((error) => of(signUpFail({ error: error.message })))
         )
       )
     );
@@ -178,6 +178,16 @@ export const afterSignUpSuccess = createEffect(
   { functional: true, dispatch: false }
 );
 
+export const afterSignUpFail = createEffect(
+  (action$ = inject(Actions), toaster = inject(Toaster)) => {
+    return action$.pipe(
+      ofType(signUpFail),
+      tap(({ error }) => toaster.showError({ text: error }))
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
 export const signIn = createEffect(
   (action$ = inject(Actions), authClient = inject(AuthClient)) => {
     return action$.pipe(
@@ -185,12 +195,22 @@ export const signIn = createEffect(
       switchMap((credentials) =>
         from(authClient.signIn(credentials)).pipe(
           map((user) => signInSuccess({ user })),
-          catchError((error) => of(signInFail({ error })))
+          catchError((error) => of(signInFail({ error: error.message })))
         )
       )
     );
   },
   { functional: true }
+);
+
+export const afterSignInFail = createEffect(
+  (action$ = inject(Actions), toaster = inject(Toaster)) => {
+    return action$.pipe(
+      ofType(signInFail),
+      tap(({ error }) => toaster.showError({ text: error }))
+    );
+  },
+  { functional: true, dispatch: false }
 );
 
 export const afterSignInSuccess = createEffect(
