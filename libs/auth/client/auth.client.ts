@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { EmailNotAvailablError, InternalServerError, InvalidCredentialsError } from '@libs/errors';
 import { SupabaseService } from '@libs/supabase';
 import { User } from '@libs/user';
 
@@ -13,10 +14,10 @@ export class AuthClient {
     const { data, error } = await this.supabase.client.auth.signUp({ ...credentials });
 
     if (error?.message === 'User already registered') {
-      throw new Error('User already registered');
+      throw new EmailNotAvailablError();
     } else if (error) {
       // Implement logger
-      throw new Error('Internal server error');
+      throw new InternalServerError();
     }
 
     return data.user!;
@@ -26,10 +27,10 @@ export class AuthClient {
     const { data, error } = await this.supabase.client.auth.signInWithPassword({ ...credentials });
 
     if (error?.message === 'Invalid login credentials') {
-      throw new Error('Invalid credentials');
+      throw new InvalidCredentialsError();
     } else if (error) {
       // Implement logger
-      throw new Error('Internal server error');
+      throw new InternalServerError();
     }
 
     return data.user;
@@ -39,7 +40,8 @@ export class AuthClient {
     const { error } = await this.supabase.client.auth.signOut();
 
     if (error) {
-      throw error;
+      // Implement logger
+      throw new InternalServerError();
     }
   }
 
@@ -47,7 +49,8 @@ export class AuthClient {
     const { error } = await this.supabase.client.auth.resetPasswordForEmail(email);
 
     if (error) {
-      throw error;
+      // Implement logger
+      throw new InternalServerError();
     }
   }
 }

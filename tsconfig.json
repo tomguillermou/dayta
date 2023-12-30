@@ -51,6 +51,7 @@
       "@libs/dashboard": ["libs/dashboard/index.ts"],
       "@libs/dashboard/client": ["libs/dashboard/client/index.ts"],
       "@libs/dashboard/page": ["libs/dashboard/page/index.ts"],
+      "@libs/errors": ["libs/errors/index.ts"],
       "@libs/sidebar": ["libs/sidebar/index.ts"],
       "@libs/store": ["libs/store/index.ts"],
       "@libs/supabase": ["libs/supabase/index.ts"],

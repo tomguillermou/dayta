@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { InternalServerError } from '@libs/errors';
 import { SupabaseService } from '@libs/supabase';
 
 import { Dashboard } from '../dashboard';
@@ -18,7 +19,8 @@ export class DashboardClient {
       .single<Dashboard>();
 
     if (error) {
-      throw error;
+      // Implement logger
+      throw new InternalServerError();
     }
 
     return data;
@@ -32,7 +34,8 @@ export class DashboardClient {
       .single<Dashboard>();
 
     if (error) {
-      throw error;
+      // Implement logger
+      throw new InternalServerError();
     }
 
     return data;
@@ -46,7 +49,8 @@ export class DashboardClient {
       .order('created_at', { ascending: false });
 
     if (error) {
-      throw error;
+      // Implement logger
+      throw new InternalServerError();
     }
 
     return (data as unknown as Array<Pick<Dashboard, 'id' | 'name'>>) ?? [];
@@ -64,7 +68,8 @@ export class DashboardClient {
       .single<Dashboard>();
 
     if (error) {
-      throw error;
+      // Implement logger
+      throw new InternalServerError();
     }
 
     return data;
@@ -79,7 +84,8 @@ export class DashboardClient {
       .single<Dashboard>();
 
     if (error) {
-      throw error;
+      // Implement logger
+      throw new InternalServerError();
     }
 
     return data;
