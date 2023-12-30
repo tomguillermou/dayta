@@ -9,6 +9,5 @@ import { SidebarComponent } from '@libs/sidebar';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, SidebarComponent, RouterOutlet],
   templateUrl: './dashboard-page.component.html',
-  styleUrls: ['./dashboard-page.component.scss'],
 })
 export class DashboardPageComponent {}
