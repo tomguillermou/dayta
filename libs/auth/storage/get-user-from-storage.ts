@@ -1,4 +1,4 @@
-import { User } from '@libs/supabase';
+import { User } from '@libs/user';
 
 export function getUserFromStorage(): User | null {
   const user = localStorage.getItem('user');

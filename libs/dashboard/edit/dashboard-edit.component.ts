@@ -13,9 +13,7 @@ import { Dashboard } from '../dashboard';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, ReactiveFormsModule],
-  selector: 'app-dashboard-edit',
   templateUrl: './dashboard-edit.component.html',
-  styleUrls: ['./dashboard-edit.component.scss'],
 })
 export class DashboardEditComponent {
   editionForm = this.formBuilder.nonNullable.group({

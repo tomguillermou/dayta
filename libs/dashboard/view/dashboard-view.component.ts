@@ -6,7 +6,8 @@ import { Store } from '@ngrx/store';
 import { combineLatest, map } from 'rxjs';
 import Swal from 'sweetalert2';
 
-import { deleteDashboardRequested, selectDashboard, updateDashboardRequested } from '../../store';
+import { deleteDashboardRequested, selectDashboard, updateDashboardRequested } from '@libs/store';
+
 import { DashboardChartComponent } from '../chart';
 import { Dashboard } from '../dashboard';
 
@@ -14,7 +15,6 @@ import { Dashboard } from '../dashboard';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, ReactiveFormsModule, DashboardChartComponent],
-  selector: 'app-dashboard',
   templateUrl: './dashboard-view.component.html',
   styleUrls: ['./dashboard-view.component.scss'],
 })

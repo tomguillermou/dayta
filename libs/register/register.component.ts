@@ -11,7 +11,6 @@ import { signUpRequested } from '@libs/store';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
   registerFrom: FormGroup;

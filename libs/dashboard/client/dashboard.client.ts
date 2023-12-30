@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { SupabaseService } from '@libs/supabase';
 
-import { Dashboard, NewDashboard } from '../dashboard';
+import { Dashboard } from '../dashboard';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ import { Dashboard, NewDashboard } from '../dashboard';
 export class DashboardClient {
   constructor(private supabase: SupabaseService) {}
 
-  async createDashboard(dashboard: NewDashboard): Promise<Dashboard | null> {
+  async createDashboard(dashboard: Pick<Dashboard, 'name' | 'description' | 'user_id'>): Promise<Dashboard | null> {
     const { data, error } = await this.supabase.client
       .from('dashboards')
       .insert(dashboard)
