@@ -1,7 +1,7 @@
 <ng-container *ngIf="vm$ | async as vm">
   <ng-container *ngIf="vm.user as user">
     <div class="d-flex flex-column vh-100 p-3 bg-light" style="width: 320px">
-      <p class="text-center bg-body-secondary rounded-pill py-2">
+      <p class="text-center">
         <i class="bi bi-person"></i>
         {{ user.email }}
       </p>
@@ -9,17 +9,14 @@
       <h3>Dashboards</h3>
 
       <div class="d-flex flex-column gap-1 mb-auto">
-        <button
-          class="btn btn-sm btn-outline-secondary border border-0 text-start"
-          (click)="onCreateDashboard(vm.user, vm.dashboards.length)"
-        >
+        <button class="btn btn-sm btn-light text-start" (click)="onCreateDashboard(vm.user, vm.dashboards.length)">
           <i class="bi bi-plus-lg"></i>
           Create one
         </button>
 
         <ng-container *ngFor="let dashboard of vm.dashboards">
           <a
-            class="btn btn-sm btn-outline-secondary border border-0 text-start text-nowrap text-truncate overflow-hidden"
+            class="btn btn-sm btn-light text-start text-nowrap text-truncate overflow-hidden"
             [routerLink]="['/dashboards', dashboard.id]"
             routerLinkActive="active"
           >
