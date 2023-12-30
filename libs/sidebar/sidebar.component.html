@@ -1,24 +1,30 @@
 <ng-container *ngIf="vm$ | async as vm">
-  <button class="btn btn-primary mb-4" (click)="onCreateDashboard(vm.user)" *ngIf="vm.user">Create a dashboard</button>
+  <div class="d-flex flex-column vh-100 p-3 bg-light" style="width: 320px">
+    <button class="btn btn-sm btn-primary mb-3" (click)="onCreateDashboard(vm.user)" *ngIf="vm.user">
+      Create one dashboard
+    </button>
 
-  <h2>Dashboards</h2>
+    <h3>Dashboards</h3>
 
-  <p class="mb-auto" *ngIf="!vm.dashboards.length">No dashboard found, create one!</p>
+    <p class="mb-auto" *ngIf="!vm.dashboards.length">No dashboard found, create one!</p>
 
-  <div class="list-group mb-auto" *ngIf="vm.dashboards.length">
-    <ng-container *ngFor="let dashboard of vm.dashboards">
-      <a
-        class="list-group-item list-group-item-action text-nowrap text-truncate overflow-hidden"
-        [routerLink]="['/dashboards', dashboard.id]"
-        routerLinkActive="active"
-      >
-        {{ dashboard.name }}
-      </a>
+    <ng-container *ngIf="vm.dashboards.length">
+      <div class="d-flex flex-column gap-1 mb-auto">
+        <ng-container *ngFor="let dashboard of vm.dashboards">
+          <a
+            class="btn btn-sm btn-outline-secondary border border-0 text-start text-nowrap text-truncate overflow-hidden"
+            [routerLink]="['/dashboards', dashboard.id]"
+            routerLinkActive="active"
+          >
+            {{ dashboard.name }}
+          </a>
+        </ng-container>
+      </div>
     </ng-container>
-  </div>
 
-  <div class="d-flex flex-column align-items-center gap-2" *ngIf="vm.user as user">
-    <p class="fw-semibold mb-0">{{ user.email }}</p>
-    <button class="btn btn-outline-danger w-100" type="button" (click)="onSignOut()">Sign out</button>
+    <div class="d-flex flex-column align-items-center gap-2" *ngIf="vm.user as user">
+      <p class="fw-semibold mb-0">{{ user.email }}</p>
+      <button class="btn btn-sm btn-outline-danger w-100" (click)="onSignOut()">Sign out</button>
+    </div>
   </div>
 </ng-container>
